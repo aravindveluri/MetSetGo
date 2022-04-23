@@ -4,9 +4,16 @@ from .serializers import PlayerSerializer
 
 #Player ViewSet
 class PlayerViewSet(viewsets.ModelViewSet):
-    queryset = Player.objects.all()
     permission_classes = [
-        permissions.AllowAny
+        permissions.IsAuthenticated
     ]
+
     serializer_class = PlayerSerializer
+    
+    def get_queryset(self):
+        return self.request.user.players.all()
+    
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+    
     

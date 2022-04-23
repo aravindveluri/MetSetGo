@@ -18,4 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('metsetgo_backend.urls')),
+    path('', include('accounts.urls'))
 ]
