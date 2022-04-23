@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('metsetgo_backend.urls')),
+    path('api/', include('metsetgo_backend.urls')),
     path('', include('accounts.urls'))
 ]

@@ -1,7 +1,12 @@
 from rest_framework import routers
-from .api import PlayerViewSet
+from .api import GetPlayerView, UpdatePlayerView
+from django.urls import path, include
 
 router = routers.DefaultRouter()
-router.register('api/players', PlayerViewSet, 'players')
 
-urlpatterns = router.urls
+
+urlpatterns = [
+    path('', include(router.urls)),
+    path('players/<pk>/', GetPlayerView.as_view(), name='players'),
+    path('players/edit/<pk>/', UpdatePlayerView.as_view(), name='players')
+]

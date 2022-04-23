@@ -21,3 +21,7 @@ class Player(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def delete(self, *args, **kwargs):
+        self.user.delete()
+        return super(self.__class__, self).delete(*args, **kwargs)
+

@@ -1,27 +1,27 @@
 from metsetgo_backend.models import Player
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, generics, mixins
 from .serializers import BasicPlayerSerializer, OwnerPlayerSerializer
-
 #Player ViewSet
-class PlayerViewSet(viewsets.ModelViewSet):
-    def get_queryset(self):
-        if self.request.method == 'GET':
-            return Player.objects.all()
 
+class GetPlayerView(generics.RetrieveAPIView):
+    def get_queryset(self):
+        return Player.objects.all()
+    
+    def get_serializer_class(self):
+        if not self.request.user.is_anonymous and str(self.request.user.player.id) == self.kwargs['pk']:
+            return OwnerPlayerSerializer
+        return BasicPlayerSerializer
+
+
+class UpdatePlayerView(generics.RetrieveUpdateDestroyAPIView):
+    def get_queryset(self):
         return Player.objects.filter(user=self.request.user)
     
     def get_serializer_class(self):
-        if 'pk' in self.kwargs:
-            if str(self.request.user.player.id) == self.kwargs['pk']:
-                return OwnerPlayerSerializer
-        return BasicPlayerSerializer
-    
+        return OwnerPlayerSerializer
 
     permission_classes = [
         permissions.IsAuthenticated
     ]
 
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
-    
-    
+
