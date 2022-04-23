@@ -5,13 +5,16 @@ from .serializers import BasicPlayerSerializer, OwnerPlayerSerializer
 #Player ViewSet
 class PlayerViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
-        return Player.objects.all()
+        if self.request.method == 'GET':
+            return Player.objects.all()
+
+        return Player.objects.filter(user=self.request.user)
     
     def get_serializer_class(self):
-        if str(self.request.user.player.id) == self.kwargs['pk']:
-            return OwnerPlayerSerializer
+        if 'pk' in self.kwargs:
+            if str(self.request.user.player.id) == self.kwargs['pk']:
+                return OwnerPlayerSerializer
         return BasicPlayerSerializer
-
     
 
     permission_classes = [
