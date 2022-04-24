@@ -25,3 +25,39 @@ class Player(models.Model):
         self.user.delete()
         return super(self.__class__, self).delete(*args, **kwargs)
 
+class Sport(models.Model):
+
+    name = models.CharField(max_length=100)
+    type = models.CharField(max_length=100)
+
+
+class Event(models.Model):
+
+    isPrivate = models.BooleanField()
+    datetime= models.DateTimeField()
+    skillMin = models.IntegerField()
+    skillMax = models.IntegerField()
+    type = models.CharField(max_length=100)
+    details = models.CharField(max_length=500)
+    isFull =  models.BooleanField()
+    hostSkill = models.IntegerField()
+    #sport = models.ForeignKey(Sport,on_delete=models.CASCADE)
+
+class PlayerMapEvent(models.Model):
+
+    player= models.ForeignKey(Player,on_delete=models.CASCADE)
+    event= models.ForeignKey(Event,on_delete=models.CASCADE)
+    playerType= models.CharField(max_length=100,default="Host")
+    
+
+class Venue(models.Model):
+
+    city = models.CharField(max_length=100)
+    state= models.CharField(max_length=100)
+    pincode= models.CharField(max_length=100)
+    country= models.CharField(max_length=100)
+
+class EventMapVenue(models.Model):
+
+    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue,on_delete=models.CASCADE)

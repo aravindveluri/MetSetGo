@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('api/', include('metsetgo_backend.urls')),
-    path('', include('accounts.urls'))
+    path('', include('accounts.urls')),
+    path('admin/', admin.site.urls)
 ]
