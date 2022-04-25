@@ -41,7 +41,7 @@ class Event(models.Model):
     details = models.CharField(max_length=500)
     isFull =  models.BooleanField()
     hostSkill = models.IntegerField()
-    #sport = models.ForeignKey(Sport,on_delete=models.CASCADE)
+    sport = models.ForeignKey(Sport,on_delete=models.CASCADE,null=True)
 
 class PlayerMapEvent(models.Model):
 
@@ -59,5 +59,5 @@ class Venue(models.Model):
 
 class EventMapVenue(models.Model):
 
-    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+    event = models.OneToOneField(Event,on_delete=models.CASCADE, related_name="eventVenue", unique=True, null=False)
     venue = models.ForeignKey(Venue,on_delete=models.CASCADE)
