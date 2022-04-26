@@ -1,5 +1,5 @@
 from rest_framework import routers
-from .api import GetPlayerView, UpdatePlayerView
+from .api import *
 from django.urls import path, include
 
 router = routers.DefaultRouter()
@@ -7,6 +7,14 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path('', include(router.urls)),
+
     path('players/<pk>/', GetPlayerView.as_view(), name='players'),
-    path('players/edit/<pk>/', UpdatePlayerView.as_view(), name='players')
+    path('players/<pk>/edit/', UpdatePlayerView.as_view(), name='editPlayer'),
+    # path('players/<pk>/events/', PlayerEventView.as_view(), name='updateEvent'),
+
+    path('events/', GetEventsView.as_view(), name='viewEvents'),
+    path('events/create/', CreateEventView.as_view(), name='createEvent'),
+    path('events/<pk>/', GetEventsView.as_view(), name='viewEvents'),
+    path('events//<pk>/edit/', UpdateEventView.as_view(), name='updateEvent'),
+
 ]

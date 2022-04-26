@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import Venue
+from .models import *
 
 # Register your models here.
 
 admin.site.register(Venue)
+admin.site.register(Sport)
+admin.site.register(EventMapVenue)
