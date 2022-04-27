@@ -61,9 +61,9 @@ class Event(models.Model):
 
 
     sport = models.ForeignKey(Sport, on_delete=models.CASCADE, null=False)
-    players = models.ManyToManyField(Player, related_name="players", through='PlayerMapEvent')
+    players = models.ManyToManyField(Player, through='PlayerMapEvent')
     host = models.ForeignKey(Player, related_name="host", on_delete=models.CASCADE)
-    venue = models.ForeignKey(Venue, related_name="venue", on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -102,7 +102,7 @@ class EventMapVenue(models.Model):
         ('A', 'Approved')
     )
 
-    event = models.OneToOneField(Event,on_delete=models.CASCADE, related_name="eventVenue", unique=True, null=False)
+    event = models.OneToOneField(Event,on_delete=models.CASCADE, unique=True, null=False)
     venue = models.ForeignKey(Venue,on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUS, default='P')
 
