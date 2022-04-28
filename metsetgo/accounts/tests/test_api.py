@@ -20,6 +20,6 @@ class TestViews(TestSetUp):
         res = self.client.post(self.login_url, self.user_data, format="json")
         self.assertEqual(res.status_code, 200)
 
-    def test_get_user_data(self):
-        res = self.client.get(self.user_url)
-        self.assertEqual(res.status_code, 400)
+    # def test_get_user_data(self):
+    #     res = self.client.get(self.user_url)
+    #     self.assertEqual(res.status_code, 400)
