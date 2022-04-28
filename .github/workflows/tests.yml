@@ -47,5 +47,7 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run Migrations # run migrations to populate db tables
         run: python metsetgo/manage.py migrate
-      - name: Run Test # running tests
-        run: python metsetgo/manage.py test
+      - name: Run Tests # running tests
+        run: cd metsetgo
+        run: python manage.py test
+        run: cd ..
