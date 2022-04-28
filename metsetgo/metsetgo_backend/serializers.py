@@ -12,10 +12,45 @@ class OwnerPlayerSerializer(serializers.ModelSerializer):
         model = Player
         fields = ('__all__')
 
+class VenueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Venue
+        fields = ('id', 'address', 'pincode', 'city', 'state', 'country')
+
+class SportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sport
+        fields = ('id', 'name', 'type')
+
+
 class EventSerializer(serializers.ModelSerializer):
+
+    host = BasicPlayerSerializer()
+    players = BasicPlayerSerializer(many=True)
+    venue = VenueSerializer()
+    sport = SportSerializer()
     class Meta:
         model = Event
-        fields = ('__all__')
+        fields = (
+            'id',
+            'startDateTime',
+            'endDateTime',
+            'isPrivate',
+            'isFull',
+            'skillMin',
+            'skillMax',
+            'type',
+            'details',
+            'hostSkill',
+
+            'created_at',
+            'updated_at',
+
+            'sport',
+            'host',
+            'venue',
+            'players',
+        )
 
 class PlayerEventsSerializer(serializers.ModelSerializer):
     # something = Player.objects.get(id=6)
@@ -29,3 +64,10 @@ class PlayerEventsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         fields = ('hosted', 'participated')
+
+class EventRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlayerMapEvent
+        fields = ('player', 'event', 'playerType')
+        # read_only_fields = ('created_at','updated_at')
+

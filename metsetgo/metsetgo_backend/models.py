@@ -79,12 +79,15 @@ class Event(models.Model):
 
 class PlayerMapEvent(models.Model):
 
+    class Meta:
+        unique_together = (('player', 'event'))
+
+    
     PLAYER_TYPE_CHOICES = (
         ('G', 'Guest'),
         ('I', 'Invited'),
         ('R', 'Requested'),
     )
-
 
     player= models.ForeignKey(Player,on_delete=models.CASCADE)
     event= models.ForeignKey(Event,on_delete=models.CASCADE)
