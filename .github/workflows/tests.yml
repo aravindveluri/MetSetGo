@@ -1,0 +1,51 @@
+name: Django CI testing
+
+# triggers
+on:
+  # opening a pr to master or develop branches
+  pull_request:
+    branches:
+      - develop
+      - master
+  # code pushed to master or develop branch
+  push:
+    branches:
+      - master
+      - develop
+
+
+jobs:
+  app-health-job: # health check for testing
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: github-actions
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Cache dependency # for faster builds
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Setup python environment # setting python environment to 3.x
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8.3'
+      - name: Check Python version # Check if python version is installed
+        run: python --version
+      - name: Install requirements # install requirements
+        run: pip install -r requirements.txt
+      - name: Run Migrations # run migrations to populate db tables
+        run: python metsetgo/manage.py migrate
+      - name: Run Test # running tests
+        run: python metsetgo/manage.py test
