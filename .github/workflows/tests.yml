@@ -47,7 +47,10 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run Migrations # run migrations to populate db tables
         run: python metsetgo/manage.py migrate
-      - name: Run Tests # running tests
+      - name: Go inside the django project directory
         run: cd metsetgo
+      - name: Run Tests # running tests
         run: python manage.py test
+      - name: Go back
         run: cd ..
+
