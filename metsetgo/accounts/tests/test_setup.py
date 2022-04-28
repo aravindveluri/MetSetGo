@@ -16,6 +16,12 @@ class TestSetUp(APITestCase):
             'username': "ab",
             'password': "ab",
         }
+        self.user_data_wrong = {
+            'fname':'a',
+            'email': 'ab@ab.com',
+            'username': "ab",
+            'password': "abc",
+        }
 
         return super().setUp()
 

@@ -9,8 +9,8 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
 
-    path('players/<pk>/', GetPlayerView.as_view(), name='players'),
-    path('players/<pk>/edit', UpdatePlayerView.as_view(), name='players'),
+    path('players/<pk>/', GetPlayerView.as_view(), name='get_players'),
+    path('players/<pk>/edit/', UpdatePlayerView.as_view(), name='players'),
     path('players/<pk>/events/', PlayerEventsView.as_view(), name='aplayers'),
 
     path('events/', GetEventsView.as_view(), name='viewEvents'),

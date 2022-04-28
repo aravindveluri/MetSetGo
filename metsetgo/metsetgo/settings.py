@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'metsetgo_backend',
     'rest_framework',
     'knox',
-    'accounts'
+    'accounts',
+    'rest_framework.authtoken'
 ]
 
 REST_FRAMEWORK = {
