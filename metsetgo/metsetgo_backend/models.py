@@ -9,12 +9,13 @@ class Player(models.Model):
         ('M', 'Male'),
         ('F', 'Female'),
         ('O', 'Other'),
+        ('N', 'Prefer not to say'),
     )
 
     fname = models.CharField(max_length=100)
     lname = models.CharField(max_length=100, blank=True)
     phone = models.CharField(max_length=13)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='N')
     bio = models.TextField(max_length=500, blank=True)
 
     user = models.OneToOneField(User, related_name="player", on_delete=models.CASCADE, null=True)
