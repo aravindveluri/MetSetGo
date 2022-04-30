@@ -52,8 +52,8 @@ function Profile(props)  {
                                 <div className="card-body">
                                     {profile ? (
                                         Object.keys(profile).filter(key => displayFields[key]).map((key, i) => (
-                                            <div>
-                                                <div className="row" key={i}>
+                                            <div key={i}>
+                                                <div className="row" >
                                                     <div className="col-sm-3">
                                                         <p className="mb-0">{displayFields[key]}</p>
                                                     </div>

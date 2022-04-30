@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { connect } from "react-redux";
-import LoginAuthAction from "../actions/authActions";
+import { LoginAuthAction } from "../actions/authActions";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useHistory } from "react-router-dom";

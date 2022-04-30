@@ -1,7 +1,7 @@
 import AuthActionType from "../types/authActionType"
+import TokenService from "../services/TokenService";
 
-
-const authTokens =  JSON.parse(localStorage.getItem("authTokens"));
+const authTokens =  TokenService.getAuthTokens()
 const authState = authTokens
     ? {isLoggedIn: true, user: authTokens}
     : {isLoggedIn: false, user: null} 
@@ -16,12 +16,17 @@ const authReducer = (state = authState, action) => {
                 isLoggedIn: true,
                 user: action.payload
             }
-            localStorage.setItem("authTokens", JSON.stringify (newAuthState.user))
+            TokenService.setAuthTokens(newAuthState.user)
             return newAuthState
 
         case AuthActionType.AUTH_FAIL:
+            TokenService.removeAuthTokens()
             return {isLoggedIn: false, user: null} 
-        
+
+        case AuthActionType.LOGOUT_SUCCESS:
+            TokenService.removeAuthTokens()
+            return {isLoggedIn: false, user: null} 
+    
         default:
             return state
     }

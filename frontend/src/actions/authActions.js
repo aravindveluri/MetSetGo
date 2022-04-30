@@ -1,4 +1,5 @@
 import api from "../services/api";
+import TokenService from "../services/TokenService";
 import AuthActionType from "../types/authActionType"
 
 const LoginAuthAction = (userState, history) => {
@@ -20,8 +21,25 @@ const LoginAuthAction = (userState, history) => {
             })
         }
     }
-} 
+}
+
+const LogOutAuthAction = (history) => {
+    return async (dispatch) => {
+        try {
+            const data = (await api.post("/auth/logout/", { refresh: TokenService.getLocalRefreshToken() }))
+            dispatch({
+                type: AuthActionType.LOGOUT_SUCCESS,
+                payload: {}
+            })
+
+            history.push("/")
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+}
 
 
 
-export default LoginAuthAction
+export {LogOutAuthAction, LoginAuthAction}

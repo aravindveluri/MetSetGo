@@ -19,7 +19,7 @@ class TokenService {
         console.log(JSON.stringify(authTokens));
         localStorage.setItem("authTokens", JSON.stringify(authTokens));
     }
-    removeAuthToken() {
+    removeAuthTokens() {
         localStorage.removeItem("authTokens");
     }
 }
