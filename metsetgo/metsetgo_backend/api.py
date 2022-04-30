@@ -1,3 +1,4 @@
+from cgitb import lookup
 from metsetgo_backend.models import *
 from rest_framework import viewsets, permissions, generics, mixins
 from .serializers import BasicPlayerSerializer, OwnerPlayerSerializer, EventSerializer, PlayerEventsSerializer, EventRequestSerializer
@@ -7,11 +8,13 @@ from django.utils import timezone
 # Player ViewSet
 # Get the public information available to all the users
 class GetPlayerView(generics.RetrieveAPIView):
+    lookup_field = "user_id"
+    
     def get_queryset(self):
         return Player.objects.all()
     
     def get_serializer_class(self):
-        if not self.request.user.is_anonymous and str(self.request.user.player.id) == self.kwargs['pk']:
+        if not self.request.user.is_anonymous and str(self.request.user.id) == self.kwargs['user_id']:
             return OwnerPlayerSerializer
         return BasicPlayerSerializer
 
