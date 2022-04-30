@@ -1,8 +1,8 @@
-import jwtDecode from "jwt-decode";
 import React from "react";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { LogOutAuthAction } from "../actions/authActions";
+import TokenService from "../services/TokenService";
 
 function Header(props) {
   const { auth, logout } = props;
@@ -24,11 +24,11 @@ function Header(props) {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Link to={"/profile/" + jwtDecode(auth.user.access).user_id}>
-              <h5>{jwtDecode(auth.user.access).username}</h5>
+            <Link to={"/profile/" + TokenService.getUser().user_id}>
+              <h5 className="mx-3"> {TokenService.getUser().username}</h5>
             </Link>
             <button
-              className="btn btn-danger btn-sm mx-2"
+              className="btn btn-danger btn-sm mx-3"
               onClick={() => {
                 logout(history);
               }}

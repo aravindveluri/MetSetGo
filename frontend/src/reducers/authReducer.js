@@ -8,7 +8,7 @@ const authState = authTokens
 
 
 const authReducer = (state = authState, action) => {
-    console.log(state, action.type)
+
     switch (action.type) {
         case AuthActionType.AUTH_SUCCESS:
         case AuthActionType.SET_TOKENS:

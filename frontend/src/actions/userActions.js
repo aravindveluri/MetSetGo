@@ -23,6 +23,48 @@ export const getUserProfile = (uid, history) => {
 
         }
     }
-} 
+}
 
+export const getVenues = () => {
+    return async (dispatch) => {
+        try {
+            const data = await userAPI.getVenues()
+            dispatch({
+                type: UserActionType.GET_VENUES,
+                payload: data.data
+            })
+            
+        } catch (error) {
+            console.log(error)
+
+        }
+    }
+}
+
+export const getSports = () => {
+    return async (dispatch) => {
+        try {
+            const data = await userAPI.getSports()
+            dispatch({
+                type: UserActionType.GET_SPORTS,
+                payload: data.data
+            })
+            
+        } catch (error) {
+            console.log(error)
+
+        }
+    }
+}
+
+
+export const createEventAction = (formState, history) => {
+    return async (dispatch) => {
+        try {
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
 

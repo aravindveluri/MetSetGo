@@ -1,5 +1,5 @@
 from rest_framework import routers
-from .api import GetPlayerView, UpdatePlayerView, PlayerEventsView
+from .api import GetPlayerView, GetSportsView, GetVenuesView, UpdatePlayerView, PlayerEventsView
 from .api import GetEventsView, CreateEventView, UpdateEventView, JoinEventView
 from django.urls import path, include
 
@@ -18,5 +18,9 @@ urlpatterns = [
     path('events/<pk>/', GetEventsView.as_view(), name='viewEvents'),
     path('events/<pk>/edit', UpdateEventView.as_view(), name='updateEvent'),
     path('events/join', JoinEventView.as_view(), name='joinEvent'),
+    
+    
+    path('sports/', GetSportsView.as_view(), name='getSports'),
+    path('venues/', GetVenuesView.as_view(), name='getVenues'),
 
 ]

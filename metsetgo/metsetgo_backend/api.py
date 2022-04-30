@@ -1,7 +1,7 @@
 from cgitb import lookup
 from metsetgo_backend.models import *
 from rest_framework import viewsets, permissions, generics, mixins
-from .serializers import BasicPlayerSerializer, OwnerPlayerSerializer, EventSerializer, PlayerEventsSerializer, EventRequestSerializer
+from .serializers import BasicPlayerSerializer, OwnerPlayerSerializer, EventSerializer, PlayerEventsSerializer, EventRequestSerializer, SportSerializer, VenueSerializer
 from django.db.models import Q
 from django.utils import timezone
 
@@ -126,3 +126,16 @@ class JoinEventView(generics.CreateAPIView):
     ]
 
 
+class GetSportsView(generics.ListAPIView):
+    def get_queryset(self):
+        return Sport.objects.all()
+    
+    def get_serializer_class(self):
+        return SportSerializer
+
+class GetVenuesView(generics.ListAPIView):
+    def get_queryset(self):
+        return Venue.objects.all()
+    
+    def get_serializer_class(self):
+        return VenueSerializer

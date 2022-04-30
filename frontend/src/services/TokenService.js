@@ -1,3 +1,5 @@
+import jwtDecode from "jwt-decode";
+
 class TokenService {
     getLocalRefreshToken() {
         const authTokens = JSON.parse(localStorage.getItem("authTokens"));
@@ -21,6 +23,10 @@ class TokenService {
     }
     removeAuthTokens() {
         localStorage.removeItem("authTokens");
+    }
+    getUser () {
+        const access = this.getLocalAccessToken()
+        return jwtDecode(access)
     }
 }
 

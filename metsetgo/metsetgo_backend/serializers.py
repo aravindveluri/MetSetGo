@@ -25,10 +25,6 @@ class SportSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
 
-    host = BasicPlayerSerializer()
-    players = BasicPlayerSerializer(many=True)
-    venue = VenueSerializer()
-    sport = SportSerializer()
     class Meta:
         model = Event
         fields = (
@@ -49,7 +45,7 @@ class EventSerializer(serializers.ModelSerializer):
             'sport',
             'host',
             'venue',
-            'players',
+            # 'players',
         )
 
 class PlayerEventsSerializer(serializers.ModelSerializer):

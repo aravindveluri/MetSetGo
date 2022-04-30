@@ -10,6 +10,7 @@ import Login from "./views/loginPage";
 import Register from "./views/registerPage";
 import ProtectedPage from "./views/ProtectedPage";
 import Profile from "./components/Profile";
+import CreateEvent from "./components/CreateEvent";
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
           <Route exact path="/profile/:uid">
             <Profile></Profile>
           </Route>
+          <Route exact path="/events/create">
+            <CreateEvent></CreateEvent>
+          </Route>
+
 
         </Switch>
       </Router>

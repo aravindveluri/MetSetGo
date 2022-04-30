@@ -24,6 +24,7 @@
 .home-main {
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
     url("https://thumbs.dreamstime.com/b/sports-equipment-3181239.jpg");
+    /* https://vistapointe.net/images/sport-3.jpg */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -90,3 +91,8 @@
   padding: 10px;
   width: 220px;
 }
+
+/* .bg-light {
+  opacity: 0.8;
+  border-radius: 1em;
+} */
