@@ -24,7 +24,9 @@ function Header(props) {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <h5>{jwtDecode(auth.user.access).username}</h5>
+            <Link to={"/profile/" + jwtDecode(auth.user.access).user_id}>
+              <h5>{jwtDecode(auth.user.access).username}</h5>
+            </Link>
             <button
               className="btn btn-danger btn-sm mx-2"
               onClick={() => {
