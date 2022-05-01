@@ -19,11 +19,11 @@ services:
   db:
     restart: always
     image: postgres:12.9
-    container_name: database
+    container_name: metsetgo_database
     environment:
-      - POSTGRES_USER=<<user>>
-      - POSTGRES_PASSWORD=<<password>>
-      - POSTGRES_DB=<<database>>
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=MetSetGoDB
     ports:
       - "5438:5432"
     networks:
@@ -31,7 +31,7 @@ services:
 
   backend:
     restart: always
-    container_name: backend
+    container_name: metsetgo_backend
     command: bash -c "python manage.py makemigrations && 
                       python manage.py migrate && 
                       python manage.py runserver 0.0.0.0:8000"
@@ -41,6 +41,7 @@ services:
     build: 
       context: ./metsetgo
       dockerfile: Dockerfile
+    image: aravindv178/metsetgo:backend
     ports:
       - "8000:8000"
     depends_on:
@@ -51,10 +52,11 @@ services:
   frontend:
     restart: always
     command: npm start
-    container_name: frontend
+    container_name: metsetgo_frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    image: aravindv178/metsetgo:frontend
     ports:
       - "3000:3000"
     stdin_open: true
