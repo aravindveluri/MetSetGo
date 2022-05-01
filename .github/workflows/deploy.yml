@@ -23,4 +23,18 @@ jobs:
     - name: Build images using docker compose
       run: docker-compose build
       
+    - name: Push to DockerHub
+      uses: julioarruda/pushimagetoregistry@v1
+      with:
+        # Username Name with push permission
+        acr-tokenname: ${{ secrets.DOCKERHUB_USERNAME }}
+        # Token/PWD with push permission
+        acr-token: ${{ secrets.DOCKERHUB_PASSWORD }}
+        # Docker Account Name
+        acr-account: ${{ secrets.DOCKERHUB_USERNAME }}
+        # Docker Image Name
+        acr-imagename: aravindv178/metsetgo:backend
+      
+      
+      
       
