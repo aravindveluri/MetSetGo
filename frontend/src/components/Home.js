@@ -22,7 +22,7 @@ function Home(props) {
                   <p className="card-text">Welcome you to MetSetGo, your singular destination for sports, fitness, fun and all things recreational. Time to get your lovable varsity jersey out and give your neighbour a shout or go challenge your colleague, better still make a new friend. Get Addicted to Play and create your own happily ever after!</p>
                   {auth.isLoggedIn ? (
                     <>
-                    <Link to={"/"}>
+                    <Link to={"/events/create"}>
                     <button className="btn btn-danger m-2">Create Event</button>
                     </Link>
                     <Link to={"/"}>
