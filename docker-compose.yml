@@ -1,0 +1,72 @@
+version: "3.9"
+
+# secrets:
+#   db_host:
+#     file: ./secrets/db_host.txt
+#   db_port:
+#     file: ./secrets/db_port.txt
+#   db_database:
+#     file: ./secrets/db_database.txt
+#   db_user:
+#     file: ./secrets/db_user.txt
+#   db_password:
+#     file: ./secrets/db_password.txt
+#   db_rootpassword:
+#     file: ./secrets/db_rootpassword.txt
+
+
+services:
+  db:
+    restart: always
+    image: postgres:12.9
+    container_name: database
+    environment:
+      - POSTGRES_USER=<<user>>
+      - POSTGRES_PASSWORD=<<password>>
+      - POSTGRES_DB=<<database>>
+    ports:
+      - "5438:5432"
+    networks:
+      - db-net
+
+  backend:
+    restart: always
+    container_name: backend
+    command: bash -c "python manage.py makemigrations && 
+                      python manage.py migrate && 
+                      python manage.py runserver 0.0.0.0:8000"
+
+    env_file:
+      - ./metsetgo/.env
+    build: 
+      context: ./metsetgo
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - db-net
+
+  frontend:
+    restart: always
+    command: npm start
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    depends_on:
+      - backend
+    networks:
+      - db-net
+
+networks:
+  # api:
+  #   driver: bridge
+  # db-network:
+  #   driver: bridge
+  db-net:
+    driver: bridge
