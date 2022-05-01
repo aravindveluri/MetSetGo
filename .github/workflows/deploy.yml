@@ -1,0 +1,26 @@
+name: Push to DockerHub
+
+on:
+  push:
+    branches:
+    - deploy
+  pull_request:
+    branches:
+    - deploy
+
+jobs:
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Pull base images
+      run: docker-compose pull
+
+    - name: Build images using docker compose
+      run: docker-compose build
+      
+      
