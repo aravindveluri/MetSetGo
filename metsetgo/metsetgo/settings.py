@@ -127,7 +127,7 @@ if os.getenv('GITHUB_WORKFLOW'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'github-actions',
+            'NAME': 'MetSetGoDB',
             'USER': 'postgres',
             'PASSWORD': 'postgres',
             'HOST': 'localhost',
