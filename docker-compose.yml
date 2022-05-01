@@ -36,8 +36,8 @@ services:
                       python manage.py migrate && 
                       python manage.py runserver 0.0.0.0:8000"
 
-    env_file:
-      - ./metsetgo/.env
+#     env_file:
+#       - ./metsetgo/.env
     build: 
       context: ./metsetgo
       dockerfile: Dockerfile
