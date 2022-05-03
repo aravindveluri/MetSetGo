@@ -41,6 +41,7 @@ services:
     build: 
       context: ./metsetgo
       dockerfile: Dockerfile
+    command: gunicorn metsetgo.wsgi --bind 0.0.0.0:8000
     image: aravindv178/metsetgo:backend
     ports:
       - "8000:8000"
@@ -56,6 +57,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    volumes:
+     - ./react_build:/app/frontend/build
     image: aravindv178/metsetgo:frontend
     ports:
       - "3000:3000"
@@ -65,6 +68,19 @@ services:
     networks:
       - db-net
 
+  nginx: 
+      image: nginx:latest
+      ports:
+        - 80:8080
+      volumes:
+        - ./nginx/nginx-setup.conf:/etx/nginx/conf.d/default.conf:ro
+        - ./react_build:/var/www/react/
+
+      depends_on:
+        - backend
+        - frontend
+
+
 networks:
   # api:
   #   driver: bridge
@@ -72,3 +88,7 @@ networks:
   #   driver: bridge
   db-net:
     driver: bridge
+
+      
+volumes:
+  react-build:
