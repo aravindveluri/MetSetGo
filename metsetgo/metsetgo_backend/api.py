@@ -1,6 +1,6 @@
 from metsetgo_backend.models import *
 from rest_framework import viewsets, permissions, generics, mixins
-from .serializers import BasicPlayerSerializer, OwnerPlayerSerializer, EventSerializer, PlayerEventsSerializer, EventRequestSerializer
+from .serializers import BasicPlayerSerializer, GetEventRequestSerializer, OwnerPlayerSerializer, EventSerializer, PlayerEventsSerializer, EventRequestSerializer
 from django.db.models import Q
 from django.utils import timezone
 
@@ -98,7 +98,7 @@ class UpdateEventView(generics.UpdateAPIView, generics.DestroyAPIView):
 # Player event history
 class PlayerEventsView(generics.RetrieveAPIView):
     def get_queryset(self):
-        return Player.objects.filter(user=self.request.user)
+        return PlayerMapEvent.objects.filter(user=self.request.user)
     
     def get_serializer_class(self):
         return PlayerEventsSerializer
@@ -118,6 +118,21 @@ class JoinEventView(generics.CreateAPIView):
         request.data.update({'player': request.user.player.id})
         return super().create(request, *args, **kwargs)
     
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+ #get players
+class EventPlayerView(generics.ListAPIView):
+
+    def get_queryset(self):
+         eventId=self.kwargs['pk']
+         print(PlayerMapEvent.objects.filter(event_id=eventId))
+         return PlayerMapEvent.objects.filter(event_id=eventId)
+
+    def get_serializer_class(self):
+        return GetEventRequestSerializer
+
     permission_classes = [
         permissions.IsAuthenticated
     ]

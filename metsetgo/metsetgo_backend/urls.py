@@ -1,6 +1,6 @@
 from rest_framework import routers
 from .api import GetPlayerView, UpdatePlayerView, PlayerEventsView
-from .api import GetEventsView, CreateEventView, UpdateEventView, JoinEventView
+from .api import GetEventsView, CreateEventView, UpdateEventView, JoinEventView, EventPlayerView
 from django.urls import path, include
 
 router = routers.DefaultRouter()
@@ -10,7 +10,7 @@ urlpatterns = [
     path('', include(router.urls)),
 
     path('players/<pk>/', GetPlayerView.as_view(), name='get_players'),
-    path('players/<pk>/edit/', UpdatePlayerView.as_view(), name='players'),
+    path('players/<pk>/edit/', UpdatePlayerView.as_view(), name='update_player'),
     path('players/<pk>/events/', PlayerEventsView.as_view(), name='aplayers'),
 
     path('events/', GetEventsView.as_view(), name='viewEvents'),
@@ -18,5 +18,7 @@ urlpatterns = [
     path('events/<pk>/', GetEventsView.as_view(), name='viewEvents'),
     path('events/<pk>/edit', UpdateEventView.as_view(), name='updateEvent'),
     path('events/join', JoinEventView.as_view(), name='joinEvent'),
+    path('events/<pk>/players', EventPlayerView.as_view(), name='eventPlayers')
+
 
 ]

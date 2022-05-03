@@ -23,26 +23,49 @@ from knox.models import AuthToken
 
 class GetPlayerTestCase(APITestCase):
 
-    # list_url = reverse("get_players", kwargs={'pk':4})
-    # print(list_url)
+
+
 
     def setUp(self):
           self.user=User.objects.create_user(username="john",password="john")
-          self.player = Player.objects.create(fname="a",lname="b",gender="A",bio="Hello",user=self.user)
+          self.player = Player.objects.create(fname="a",lname="b",gender="M",bio="Hello",user=self.user)
+          self.user_data={"fname": "F","lname": "L","phone": "9392132","gender": "F","bio": "heyyyyy"}
           self.token=AuthToken.objects.create(self.user)[1]
           
         #   self.token = Token.objects.create(user=self.user)
-          self.api_authentication()
+          
 
     def api_authentication(self):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
 
-    def test_get_player_view(self):
+    def test_get_player_view_authenticated(self):
+        self.api_authentication()
         response = self.client.get(f'/api/players/{self.player.id}/')
-        print(response.data)
+        self.assertEqual(response.data['gender'],'M')
         self.assertEqual(response.status_code, 200)
 
-    #def test_update_player_view(self):
+    def test_get_player_without_authenticated(self):
+        response = self.client.get(f'/api/players/{self.player.id}/')
+        #self.assertEqual(response.data['gender'],'M')
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_update_player_get(self):
+        self.api_authentication()
+        url = reverse("update_player", kwargs={'pk':self.player.id})
+        response = self.client.get(url)
+        #self.assertEqual(response.data['gender'],'M')
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_player_put(self):
+        self.api_authentication()
+        url = reverse("update_player", kwargs={'pk':self.player.id})
+        self.assertEqual(self.player.gender,"M")
+        response = self.client.put(url,self.user_data)
+        self.assertEqual(self.player.gender,"M") #wrongly giving correct
+        print(self.player.fname)
+        # self.assertEqual(response.data['gender'],'M')
+        self.assertEqual(response.status_code, 200)
 
 
 #     def test_profile_list_un_authenticated(self):
