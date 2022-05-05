@@ -45,7 +45,7 @@ services:
     build: 
       context: ./metsetgo
       dockerfile: Dockerfile
-    image: aravindv178/metsetgo:backend
+    image: metsetgo_backend:latest
     ports:
       - "8000:8000"
     depends_on:
@@ -62,7 +62,7 @@ services:
       dockerfile: Dockerfile
     volumes:
      - ./frontend/build:/app/frontend/build
-    image: aravindv178/metsetgo:frontend
+    image: metsetgo_frontend:latest
     ports:
       - "3000:3000"
     stdin_open: true
@@ -72,7 +72,7 @@ services:
       - db-net
 
   nginx:
-      image: nginx:latest
+      image: nginx:1.21.6
       ports:
         - 85:8080
       volumes:
