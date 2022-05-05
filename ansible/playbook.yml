@@ -1,0 +1,34 @@
+---
+- name: Deploy the application
+  hosts: all
+  become: true
+  tasks:
+    - name: Pull database image
+      docker_image:
+        name: aravindv178/metsetgo:db
+        source: pull
+    - name: Pull backend image
+      docker_image:
+        name: aravindv178/metsetgo:backend
+        source: pull
+    - name: Pull frontend image
+      docker_image:
+        name: aravindv178/metsetgo:frontend
+        source: pull
+    - name: Pull nginx image
+      docker_image:
+        name: aravindv178/metsetgo:nginx
+        source: pull
+    - name: Install pre-requisites and plugins
+      ansible.builtin.shell:
+        cmd: pip install docker-compose && ansible-galaxy collection install community.docker && ansible-galaxy collection install ansible.posix
+
+    - name: Copy docker compose file
+      copy:
+        src: ./docker-compose.yml
+        dest: ~/metsetgo
+    
+    - name: Docker compose to spin up containers for metsetgo
+      community.docker.docker_compose:
+        project_src: ~/metsetgo
+        
