@@ -80,8 +80,8 @@ jobs:
         
     - name: Tag docker images
       run: | 
-        docker tag aravindv178/metsetgo:backend aravindv178/metsetgo:backend
-        docker tag aravindv178/metsetgo:frontend aravindv178/metsetgo:frontend
+        docker tag metsetgo_backend:latest aravindv178/metsetgo:backend
+        docker tag metsetgo_frontend:latest aravindv178/metsetgo:frontend
         docker tag postgres:12.9 aravindv178/metsetgo:db
         docker tag nginx:1.21.6 aravindv178/metsetgo:nginx
     
