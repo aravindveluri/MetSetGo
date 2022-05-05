@@ -57,39 +57,50 @@ jobs:
 #         working-directory: ./metsetgo
 #         run: python manage.py test
 
-  build-and-push-dockerhub:
-#     needs: app-health-job
-    timeout-minutes: 10
-    runs-on: ubuntu-latest
+#   push-dockerhub:
+# #     needs: app-health-job
+#     timeout-minutes: 10
+#     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v1
 
-    - name: Pull base images
-      run: docker-compose pull
+#     - name: Pull base images
+#       run: docker-compose pull
 
-    - name: Build images using docker compose
-      run: docker-compose build
+#     - name: Build images using docker compose
+#       run: docker-compose build
       
-    - name: Login to Docker
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+#     - name: Login to Docker
+#       uses: docker/login-action@v1
+#       with:
+#         username: ${{ secrets.DOCKERHUB_USERNAME }}
+#         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-    - name: Tag docker images
-      run: | 
-        docker tag metsetgo_backend:latest aravindv178/metsetgo:backend
-        docker tag metsetgo_frontend:latest aravindv178/metsetgo:frontend
-        docker tag postgres:12.9 aravindv178/metsetgo:db
-        docker tag nginx:1.21.6 aravindv178/metsetgo:nginx
+#     - name: Tag docker images
+#       run: | 
+#         docker tag metsetgo_backend:latest aravindv178/metsetgo:backend
+#         docker tag metsetgo_frontend:latest aravindv178/metsetgo:frontend
+#         docker tag postgres:12.9 aravindv178/metsetgo:db
+#         docker tag nginx:1.21.6 aravindv178/metsetgo:nginx
     
-    - name: Push to DockerHub
-      run: |
-        docker push aravindv178/metsetgo:backend 
-        docker push aravindv178/metsetgo:frontend 
-        docker push aravindv178/metsetgo:db
-        docker push aravindv178/metsetgo:nginx
+#     - name: Push to DockerHub
+#       run: |
+#         docker push aravindv178/metsetgo:backend 
+#         docker push aravindv178/metsetgo:frontend 
+#         docker push aravindv178/metsetgo:db
+#         docker push aravindv178/metsetgo:nginx
 
+  deploy:
+#     needs: push-dockerhub
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions/ansible
+    
+    env:
+       AZURE_SSH_USER: ${{ secrets.AZURE_SSH_USER }}
+       AZURE_SSH_PASSWORD: ${{ secrets.AZURE_SSH_PASSWORD }}  
+      
       
