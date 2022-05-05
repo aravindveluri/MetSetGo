@@ -40,8 +40,8 @@ services:
     command: bash -c "python manage.py makemigrations && 
                       python manage.py migrate && 
                       gunicorn metsetgo.wsgi --bind 0.0.0.0:8000"
-    env_file:
-      - ./metsetgo/.env
+#     env_file:
+#       - ./metsetgo/.env
     build: 
       context: ./metsetgo
       dockerfile: Dockerfile
