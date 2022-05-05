@@ -12,7 +12,7 @@ on:
     branches:
       - master
       - develop
-
+      - deploy
 
 jobs:
   app-health-job: # health check for testing
@@ -30,6 +30,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        
       - name: Cache dependency # for faster builds
         uses: actions/cache@v2
         with:
@@ -37,17 +38,49 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
+            
       - name: Setup python environment # setting python environment to 3.x
         uses: actions/setup-python@v2
         with:
           python-version: '3.8.3'
+          
       - name: Check Python version # Check if python version is installed
         run: python --version
+        
       - name: Install requirements # install requirements
         run: pip install -r requirements.txt
+        
       - name: Run Migrations # run migrations to populate db tables
         run: python metsetgo/manage.py migrate
+        
       - name: Run Tests # running tests
         working-directory: ./metsetgo
         run: python manage.py test
 
+  build-and-push-dockerhub:
+    needs: app-health-job
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Pull base images
+      run: docker-compose pull
+
+    - name: Build images using docker compose
+      run: docker-compose build
+      
+    - name: Login to Docker
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        
+    - name: Tag docker images
+      run: docker tag aravindv178/metsetgo:backend aravindv178/metsetgo:backend && docker tag aravindv178/metsetgo:frontend aravindv178/metsetgo:frontend && docker tag postgres:12.9 aravindv178/metsetgo:db
+    
+    - name: Push to DockerHub
+      run: docker push aravindv178/metsetgo:backend && docker push aravindv178/metsetgo:frontend && docker push aravindv178/metsetgo:db
+      
