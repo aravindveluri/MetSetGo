@@ -206,8 +206,10 @@ LOGGING = {
         
         'djangologfile': {
             'level': 'DEBUG',
-            'class': 'logging.FileHandler',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(BASE_DIR,'metsetgo_backend/logs/django.log'),
+            'maxBytes': 1024*1024*10,
+            'backupCount': 8,
             'formatter': 'simple',
         },
     },
