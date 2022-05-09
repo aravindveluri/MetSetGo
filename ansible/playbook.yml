@@ -40,5 +40,7 @@
 
     - name: Docker compose to spin up containers for metsetgo
       community.docker.docker_compose:
-        project_src: ~/
+        project_src: ~/metsetgo
+        files:
+        - docker-compose.yml
         
