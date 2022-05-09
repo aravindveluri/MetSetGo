@@ -98,10 +98,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run ansible deployment
-      uses: ./.github/actions/ansible
-      with:
-        context: ../
-    
+      uses: ./.github/actions/ansible    
     
     env:
        AZURE_SSH_USER: ${{ secrets.AZURE_SSH_USER }}
