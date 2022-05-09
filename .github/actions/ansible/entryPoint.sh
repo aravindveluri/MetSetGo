@@ -3,6 +3,8 @@ echo "Ansible Entrypoint"
 
 # Debug
 printenv
+echo "Current directory"
+pwd
 echo "Files list"
 ls -al
 echo "Github workspace debug"
