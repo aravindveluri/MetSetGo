@@ -92,19 +92,19 @@ jobs:
         docker push aravindv178/metsetgo:db
         docker push aravindv178/metsetgo:nginx
 
-#   deploy:
-# #     needs: push-dockerhub
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@v2
-#     - name: Run ansible deployment
-#       uses: ./.github/actions/ansible
-#       with:
-#         context: ../
+  deploy:
+    needs: push-dockerhub
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run ansible deployment
+      uses: ./.github/actions/ansible
+      with:
+        context: ../
     
     
-#     env:
-#        AZURE_SSH_USER: ${{ secrets.AZURE_SSH_USER }}
-#        AZURE_SSH_PASSWORD: ${{ secrets.AZURE_SSH_PASSWORD }}  
+    env:
+       AZURE_SSH_USER: ${{ secrets.AZURE_SSH_USER }}
+       AZURE_SSH_PASSWORD: ${{ secrets.AZURE_SSH_PASSWORD }}  
       
       
