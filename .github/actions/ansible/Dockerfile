@@ -8,7 +8,8 @@ RUN pip3 install --upgrade paramiko
 RUN pip3 install docker
 
 # Debug
-RUN ls
+RUN ll -a
+RUN env
 
 
 COPY hosts /hosts
