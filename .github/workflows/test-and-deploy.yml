@@ -97,7 +97,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: ./.github/actions/ansible
+    - name: Run ansible deployment
+      uses: ./.github/actions/ansible
+      with:
+        context: ../
+    
     
     env:
        AZURE_SSH_USER: ${{ secrets.AZURE_SSH_USER }}
