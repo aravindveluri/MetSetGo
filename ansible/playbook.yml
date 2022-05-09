@@ -2,7 +2,7 @@
 - name: Deploy the application
   hosts: all
   become: true
-  become_user: true
+  become_user: aravindv
   tasks:
     - name: Pull database image
       docker_image:
