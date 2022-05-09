@@ -25,7 +25,7 @@
 
     - name: Copy docker compose file
       copy:
-        src: /metsetgo-docker-compose.yml
+        src: /github/workspace/docker-compose.yml
         dest: ~/metsetgo/docker-compose.yml
     
     - name: Docker compose to spin up containers for metsetgo
