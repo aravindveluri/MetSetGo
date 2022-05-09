@@ -18,7 +18,7 @@ version: "3.9"
 services:
   db:
     restart: always
-    image: postgres:12.9
+    image: aravindv178/metsetgo:db
     container_name: metsetgo_database
     environment:
       - POSTGRES_USER=postgres
@@ -42,10 +42,7 @@ services:
                       gunicorn metsetgo.wsgi --bind 0.0.0.0:8000"
 #     env_file:
 #       - ./metsetgo/.env
-    build: 
-      context: ./metsetgo
-      dockerfile: Dockerfile
-    image: metsetgo_backend:latest
+    image: aravindv178/metsetgo:backend
     ports:
       - "8000:8000"
     depends_on:
@@ -57,12 +54,9 @@ services:
     # restart: always
     command: npm run build
     container_name: metsetgo_frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
     volumes:
      - ./frontend/build:/app/frontend/build
-    image: metsetgo_frontend:latest
+    image: aravindv178/metsetgo:frontend
     ports:
       - "3000:3000"
     stdin_open: true
@@ -73,14 +67,11 @@ services:
 
   nginx:
     container_name: metsetgo_nginx
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
+    image: aravindv178/metsetgo:nginx
     ports:
       - 85:8080
     # volumes:
     #   - ./nginx/nginx-setup.conf:/etc/nginx/conf.d/default.conf:ro
-      # - ./frontend/build:/var/www/react/
 
     depends_on:
       - backend
