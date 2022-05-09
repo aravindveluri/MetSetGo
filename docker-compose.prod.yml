@@ -55,7 +55,9 @@ services:
     command: npm run build
     container_name: metsetgo_frontend
     volumes:
-     - ./frontend/build:/app/frontend/build
+      - type: volume
+        source: buildfiles
+        target: /app/frontend/build
     image: aravindv178/metsetgo:frontend
     ports:
       - "3000:3000"
@@ -70,8 +72,10 @@ services:
     image: aravindv178/metsetgo:nginx
     ports:
       - 85:8080
-    # volumes:
-    #   - ./nginx/nginx-setup.conf:/etc/nginx/conf.d/default.conf:ro
+    volumes:
+      - type: volume
+        source: buildfiles
+        target: /app/frontend/build
 
     depends_on:
       - backend
@@ -89,3 +93,4 @@ networks:
       
 volumes:
   dbdata:
+  buildfiles:

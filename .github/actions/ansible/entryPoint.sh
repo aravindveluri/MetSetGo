@@ -8,7 +8,7 @@ pwd
 echo "Files list"
 ls -al
 echo "Github workspace debug"
-ls /github/workspace
+# ls /github/workspace
 
 
 

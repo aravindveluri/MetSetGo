@@ -27,21 +27,20 @@
     - name: Show pwd
       shell: pwd
 
-#     - name: Create directory if not exists
-#       file:
-#         path: ~/metsetgo
-#         state: directory
-#         mode: 0755
+    - name: Create directory if not exists
+      file:
+        path: ~/metsetgo
+        state: directory
+        mode: 0755
 
     - name: Copy docker compose file
       copy:
-        src: /github/workspace/docker-compose.yml
-        dest: ~/metsetgo/docker-compose.yml
+        src: /github/workspace/docker-compose.prod.yml
+        dest: ~/metsetgo/docker-compose.prod.yml
 
     - name: Docker compose to spin up containers for metsetgo
-      command: chdir=/home/aravindv/metsetgo docker-compose up
-#       community.docker.docker_compose:
-#         project_src: ~/metsetgo
-#         files:
-#         - docker-compose.yml
+      community.docker.docker_compose:
+        project_src: ~/metsetgo
+        files:
+        - docker-compose.prod.yml
         
