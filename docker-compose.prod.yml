@@ -71,7 +71,7 @@ services:
     container_name: metsetgo_nginx
     image: aravindv178/metsetgo:nginx
     ports:
-      - 85:8080
+      - 80:8080
     volumes:
       - type: volume
         source: buildfiles
