@@ -40,8 +40,8 @@ services:
     command: bash -c "python manage.py makemigrations && 
                       python manage.py migrate && 
                       gunicorn metsetgo.wsgi --bind 0.0.0.0:8000"
-#     env_file:
-#       - ./metsetgo/.env
+    env_file:
+      - ./.env
     image: aravindv178/metsetgo:backend
     ports:
       - "8000:8000"
