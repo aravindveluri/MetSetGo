@@ -39,8 +39,9 @@
         dest: ~/metsetgo/docker-compose.yml
 
     - name: Docker compose to spin up containers for metsetgo
-      community.docker.docker_compose:
-        project_src: ~/metsetgo
-        files:
-        - docker-compose.yml
+      command: chdir=~/metsetgo/ docker-compose up
+#       community.docker.docker_compose:
+#         project_src: ~/metsetgo
+#         files:
+#         - docker-compose.yml
         
