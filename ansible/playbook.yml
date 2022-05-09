@@ -2,6 +2,7 @@
 - name: Deploy the application
   hosts: all
   become: true
+  become_user: true
   tasks:
     - name: Pull database image
       docker_image:
@@ -26,16 +27,16 @@
 
     - name: Create directory if not exists
       file:
-        path: ~/metsetgo
+        path: /metsetgo
         state: directory
         mode: 0755
 
     - name: Copy docker compose file
       copy:
         src: /github/workspace/docker-compose.yml
-        dest: ~/metsetgo/docker-compose.yml
+        dest: /metsetgo/docker-compose.yml
 
     - name: Docker compose to spin up containers for metsetgo
       community.docker.docker_compose:
-        project_src: ~/metsetgo
+        project_src: /metsetgo
         
