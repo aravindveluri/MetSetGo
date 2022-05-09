@@ -21,9 +21,5 @@ COPY ./entryPoint.sh /entryPoint.sh
 
 # COPY ../../../docker-compose.yml /metsetgo-docker-compose.yml
 
-# Debug container
-CMD ls -al
-CMD env
-
 CMD ["sh", "/entryPoint.sh"]
 
