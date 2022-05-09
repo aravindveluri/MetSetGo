@@ -25,7 +25,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=MetSetGoDB
     ports:
-      - "5438:5432"
+      - "5432:5432"
     networks:
       - db-net
     volumes:
@@ -71,7 +71,7 @@ services:
     container_name: metsetgo_nginx
     image: aravindv178/metsetgo:nginx
     ports:
-      - 80:8080
+      - "80:8080"
     volumes:
       - type: volume
         source: buildfiles
