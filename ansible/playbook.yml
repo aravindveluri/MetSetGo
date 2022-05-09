@@ -8,24 +8,26 @@
       docker_image:
         name: aravindv178/metsetgo:db
         source: pull
+        force_source: yes
     - name: Pull backend image
       docker_image:
         name: aravindv178/metsetgo:backend
         source: pull
+        force_source: yes
     - name: Pull frontend image
       docker_image:
         name: aravindv178/metsetgo:frontend
         source: pull
+        force_source: yes
     - name: Pull nginx image
       docker_image:
         name: aravindv178/metsetgo:nginx
         source: pull
+        force_source: yes
+        
     - name: Install pre-requisites and plugins
       ansible.builtin.shell:
         cmd: pip install docker-compose && ansible-galaxy collection install community.docker && ansible-galaxy collection install ansible.posix
-
-    - name: Show pwd
-      shell: pwd
 
     - name: Create directory if not exists
       file:
