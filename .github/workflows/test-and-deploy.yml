@@ -83,7 +83,7 @@ jobs:
         docker tag metsetgo_backend:latest aravindv178/metsetgo:backend
         docker tag metsetgo_frontend:latest aravindv178/metsetgo:frontend
         docker tag postgres:12.9 aravindv178/metsetgo:db
-        docker tag nginx:1.21.6 aravindv178/metsetgo:nginx
+        docker tag metsetgo_nginx:latest aravindv178/metsetgo:nginx
     
     - name: Push to DockerHub
       run: |
