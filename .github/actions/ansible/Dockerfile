@@ -13,4 +13,6 @@ COPY ansible.cfg /etc/ansible/ansible.cfg
 
 COPY ./entryPoint.sh /entryPoint.sh
 
+COPY ../../../docker-compose.yml /metsetgo-docker-compose.yml
+
 CMD ["sh", "/entryPoint.sh"]
