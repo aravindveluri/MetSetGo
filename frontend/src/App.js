@@ -11,6 +11,8 @@ import Register from "./views/registerPage";
 import ProtectedPage from "./views/ProtectedPage";
 import Profile from "./components/Profile";
 import CreateEvent from "./components/CreateEvent";
+import EventPage from "./components/EventPage";
+import EditEvent from "./components/EditEvent";
 
 function App() {
   return (
@@ -32,6 +34,13 @@ function App() {
           <Route exact path="/events/create">
             <CreateEvent></CreateEvent>
           </Route>
+          <Route exact path="/events/:eid">
+            <EventPage></EventPage>
+          </Route>
+          <Route exact path="/events/:eid/edit">
+            <EditEvent></EditEvent>
+          </Route>
+
 
 
         </Switch>

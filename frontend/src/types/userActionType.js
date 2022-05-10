@@ -3,5 +3,9 @@ const UserActionType = {
     INVALID_TOKEN: "INVALID_TOKEN",
     GET_SPORTS: "GET_SPORTS",
     GET_VENUES: "GET_VENUES",
+    CREATE_EVENT: "CREATE_EVENT",
+    EDIT_EVENT: "EDIT_EVENT",
+    GET_EVENT: "GET_EVENT",
+    JOIN_EVENT: "JOIN_EVENT",
 }
 export default UserActionType

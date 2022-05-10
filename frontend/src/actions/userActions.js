@@ -61,10 +61,68 @@ export const getSports = () => {
 export const createEventAction = (formState, history) => {
     return async (dispatch) => {
         try {
+            const data = await userAPI.createEvent(formState)
+            console.log("Post data", data)
+            dispatch({
+                type: UserActionType.CREATE_EVENT,
+                payload: data.data
+            })
+            history.push(`/events/${data.data.id}`)
             
         } catch (error) {
             console.log(error)
         }
     }
 }
+
+export const editEventAction = (eid, formState, history) => {
+    return async (dispatch) => {
+        try {
+            const data = await userAPI.editEvent(eid, formState)
+            console.log("Put data", data)
+            dispatch({
+                type: UserActionType.EDIT_EVENT,
+                payload: data.data
+            })
+            history.push(`/events/${data.data.id}`)
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+
+export const getEventAction = (eid) => {
+    return async (dispatch) => {
+        try {
+            const data = await userAPI.getEvent(eid)
+            dispatch({
+                type: UserActionType.GET_EVENT,
+                payload: data.data
+            })
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export const joinEventAction = (eid, history) => {
+    return async (dispatch) => {
+        try {
+            // const data = await userAPI.joinEvent(eid)
+            dispatch({
+                type: UserActionType.JOIN_EVENT,
+                payload: {"data":"data"}
+            })
+
+            history.go(0)
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 

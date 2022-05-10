@@ -12,8 +12,21 @@ class UserService {
         return api.get(`/venues/`)
     }
 
-    createProfile(formData) {
+    createEvent(formData) {
         return api.post(`/events/create`, formData)
     }
+
+    editEvent(eid, formData) {
+        return api.put(`/events/${eid}/edit`, formData)
+    }
+
+    getEvent(eid) {
+        return api.get(`/events/${eid}`)
+    }
+
+    joinEvent(eid) {
+        return api.post(`/events/join`, { event: eid })
+    }
+
 }
 export default new UserService();

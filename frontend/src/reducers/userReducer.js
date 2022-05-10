@@ -4,6 +4,8 @@ const userState = {
     profileInfo: null,
     sports: [],
     venues: [],
+    eventPage: null,
+    joinEvent: false,
 }
 const userReducer = (state = userState, action) => {
     switch (action.type) {
@@ -24,8 +26,19 @@ const userReducer = (state = userState, action) => {
                 ...state,
                 venues: action.payload,
             }
-
     
+        case UserActionType.GET_EVENT:
+            return {
+                ...state,
+                eventPage: action.payload,
+            }
+
+        case UserActionType.JOIN_EVENT:
+            return {
+                ...state,
+                joinEvent: true,
+            }
+        
         default:
             return state
     }

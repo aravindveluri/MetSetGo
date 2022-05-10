@@ -13,8 +13,15 @@ function CreateEvent(props) {
   const DELAYMILLISECS = DEFAULTDELAYHOURS * 60 * 60 * 1000
   const MILLISECS = DEFAULTHOURS * 60 * 60 * 1000
   const [formState, setFormState] = useState({
-    "startDate": new Date((new Date().getTime() + DELAYMILLISECS)), 
-    "endDate": new Date((new Date().getTime() + DELAYMILLISECS + MILLISECS))
+    "startDateTime": new Date((new Date().getTime() + DELAYMILLISECS)), 
+    "endDateTime": new Date((new Date().getTime() + DELAYMILLISECS + MILLISECS)),
+    "isPrivate": false,
+    "hostSkill": "0",
+    "skillMin": "0",
+    "skillMax": "0",
+    "details": "",
+    "sport": "0",
+    "venue": "0",
   });
   const history = useHistory()
   
@@ -28,7 +35,17 @@ function CreateEvent(props) {
     fetchFormData()
   }, [])
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+
+    e.preventDefault()
+    
+    if(formState.sport === "0" || formState.venue === "0") {
+      console.log("Please select a sport or venue")
+      return
+    }
+    
+    // createEvent(formState, history)
+    
 
   }
 
@@ -50,14 +67,14 @@ function CreateEvent(props) {
           <div className="container d-flex">
             <div className="sign-in-container py-5 m-auto border">
               <form
-                onSubmit={handleSubmit}
+                onSubmit={e => handleSubmit(e)}
               >
                 <div className="form-group my-2">
                   <div className="form-row">
                     <div className="col my-2">
                       <label htmlFor="sport">Sport</label>
-                      <select className="form-select" aria-label="Sport select" onChange={e => console.log(e)}>
-                        <option defaultValue={null}>Select Sport</option>
+                      <select className="form-select" aria-label="Sport select" onChange={e => setFormState({...formState, sport: e.target.value})}>
+                        <option defaultValue={0} value={0}>Select Sport</option>
                         {userData.sports.length ? (
                           userData.sports.map(sport => {
                             return (
@@ -75,8 +92,8 @@ function CreateEvent(props) {
                   <div className="form-row">
                     <div className="col my-2">
                       <label htmlFor="venue">Venue</label>
-                      <select className="form-select" aria-label="Venue select">
-                        <option defaultValue={null}>Select Venue</option>
+                      <select className="form-select" aria-label="Venue select" onChange={e => setFormState({...formState, venue: e.target.value})}>
+                        <option defaultValue={0} value={0}>Select Venue</option>
                         {userData.venues.length ? (
                           userData.venues.map(venue => {
                             return (
@@ -93,7 +110,7 @@ function CreateEvent(props) {
                 <div className="form-group my-2">
                   <div className="form-row">
                     <div>Event Type</div>
-                    <div className="col my-2">
+                    <div className="col my-2" onChange={e => setFormState({...formState, isPrivate: (e.target.value === "private")})}>
                       <div className="form-check form-check-inline">
                         <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="public" defaultChecked/>
                         <label className="form-check-label" htmlFor="inlineRadio1"> Public</label>
@@ -109,8 +126,8 @@ function CreateEvent(props) {
                   <div className="form-row">
                     <div className="col my-2">
                       <label htmlFor="host-skill">Your Skill</label>
-                      <select className="form-select" aria-label="host-skill select">
-                        <option defaultValue={null}>None</option>
+                      <select className="form-select" aria-label="host-skill select" onChange={e => setFormState({...formState, hostSkill: e.target.value})}>
+                        <option defaultValue="0" value="0">None</option>
                         <option value="1">Beginner</option>
                         <option value="2">Amateur</option>
                         <option value="3">Intermediate</option>
@@ -124,8 +141,8 @@ function CreateEvent(props) {
                   <div className="form-row">
                     <div className="col my-2">
                       <label htmlFor="min-skill">Minimum Skill Required</label>
-                      <select className="form-select" aria-label="min-skill select">
-                        <option defaultValue={null}>None</option>
+                      <select className="form-select" aria-label="min-skill select" onChange={e => setFormState({...formState, skillMin: e.target.value})}>
+                        <option defaultValue="0" value="0">None</option>
                         <option value="1">Beginner</option>
                         <option value="2">Amateur</option>
                         <option value="3">Intermediate</option>
@@ -139,8 +156,8 @@ function CreateEvent(props) {
                   <div className="form-row">
                     <div className="col my-2">
                       <label htmlFor="max-skill">Maximum Skill Required</label>
-                      <select className="form-select" aria-label="max-skill select">
-                        <option defaultValue={null}>None</option>
+                      <select className="form-select" aria-label="max-skill select" onChange={e => setFormState({...formState, skillMax: e.target.value})}>
+                        <option defaultValue="0" value="0">None</option>
                         <option value="1">Beginner</option>
                         <option value="2">Amateur</option>
                         <option value="3">Intermediate</option>
@@ -152,13 +169,13 @@ function CreateEvent(props) {
                 </div>
                 <div className="form-group">
                   <label htmlFor="details">Instructions</label>
-                  <textarea placeholder="Instructions such as bring your own equipment, vaccination mandatory, etc." className="form-control" id="details" rows="3"></textarea>
+                  <textarea placeholder="Instructions such as bring your own equipment, vaccination mandatory, etc." className="form-control" id="details" rows="3" onChange={e => setFormState({...formState, details: e.target.value})}></textarea>
                 </div>
                 <div className="form-group my-2">
                   <div className="form-row">
                     <div className="col my-2 container p-0">
                       <label className="col-3">Start Datetime </label>
-                      <DateTimePicker className="col-3" format="dd-MM-y @ h:mm:ss a" value={formState.startDate} minDate={new Date()} onChange={e => setFormState({...formState, startDate: e})}></DateTimePicker>
+                      <DateTimePicker className="col-3" format="dd-MM-y @ h:mm:ss a" value={formState.startDateTime} minDate={new Date()} onChange={e => setFormState({...formState, startDateTime: e})}></DateTimePicker>
                     </div>
                   </div>
                 </div>
@@ -166,7 +183,7 @@ function CreateEvent(props) {
                   <div className="form-row">
                     <div className="col my-2 container p-0">
                     <label className="col-3">End Datetime </label>
-                      <DateTimePicker className="col-3" format="dd-MM-y @ h:mm:ss a" value={formState.endDate} minDate={new Date()} onChange={e => setFormState({...formState, endDate: e})}></DateTimePicker>
+                      <DateTimePicker className="col-3" format="dd-MM-y @ h:mm:ss a" value={formState.endDateTime} minDate={new Date()} onChange={e => setFormState({...formState, endDateTime: e})}></DateTimePicker>
                     </div>
                   </div>
                 </div>
@@ -206,7 +223,7 @@ const mapDispatchToProps = (dispatch) => {
     },
 
     createEvent: (formState, history) => {
-      // dispatch(RegisterAuthAction(formState, history))
+      dispatch(createEventAction(formState, history))
     }
   }
 }
