@@ -41,7 +41,7 @@ services:
                       python manage.py migrate && 
                       gunicorn metsetgo.wsgi --bind 0.0.0.0:8000"
     env_file:
-      - ./.env
+      - ./.env.backend
     image: aravindv178/metsetgo:backend
     ports:
       - "8000:8000"
@@ -53,6 +53,8 @@ services:
   frontend:
     # restart: always
     command: npm run build
+    env_file:
+      - ./.env.local
     container_name: metsetgo_frontend
     volumes:
       - type: volume
