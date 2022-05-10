@@ -2,10 +2,21 @@ from rest_framework import serializers
 from metsetgo_backend.models import *
 
 # Player serializer
+class BasicUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'id')
 class BasicPlayerSerializer(serializers.ModelSerializer):
+    user = BasicUserSerializer()
     class Meta:
         model = Player
-        fields = ('id', 'fname', 'lname', 'bio')
+        fields = ('id', 'fname', 'lname', 'bio', 'user')
+
+class GetEventRequestSerializer(serializers.ModelSerializer):
+    player = BasicPlayerSerializer()
+    class Meta:
+        model = PlayerMapEvent
+        fields = ('player', 'event', 'playerType')
 
 class OwnerPlayerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,9 +33,18 @@ class SportSerializer(serializers.ModelSerializer):
         model = Sport
         fields = ('id', 'name', 'type')
 
+class EventMapVenueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventMapVenue
+        fields = ('status',)
 
-class EventSerializer(serializers.ModelSerializer):
-
+class GetEventSerializer(serializers.ModelSerializer):
+    sport = SportSerializer()
+    venue = VenueSerializer()
+    host = BasicPlayerSerializer()
+    # players = BasicPlayerSerializer(many=True)
+    playerMapEvents = GetEventRequestSerializer(source='playermapevent_set', many=True)
+    venueStatus = EventMapVenueSerializer(source='eventmapvenue')
     class Meta:
         model = Event
         fields = (
@@ -35,7 +55,6 @@ class EventSerializer(serializers.ModelSerializer):
             'isFull',
             'skillMin',
             'skillMax',
-            'type',
             'details',
             'hostSkill',
 
@@ -46,6 +65,32 @@ class EventSerializer(serializers.ModelSerializer):
             'host',
             'venue',
             # 'players',
+            'playerMapEvents',
+            'venueStatus'
+        )
+class EventSerializer(serializers.ModelSerializer):
+    # sport = SportSerializer()
+    # venue = VenueSerializer()
+    # host = BasicPlayerSerializer()
+    class Meta:
+        model = Event
+        fields = (
+            'id',
+            'startDateTime',
+            'endDateTime',
+            'isPrivate',
+            'isFull',
+            'skillMin',
+            'skillMax',
+            'details',
+            'hostSkill',
+
+            'created_at',
+            'updated_at',
+
+            'sport',
+            'host',
+            'venue',
         )
 
 class PlayerEventsSerializer(serializers.ModelSerializer):
@@ -54,8 +99,8 @@ class PlayerEventsSerializer(serializers.ModelSerializer):
     # print(something.event_set.all())
     # print(something.host.all())
 
-    hosted = EventSerializer(source='host', many=True)
-    participated = EventSerializer(source='event_set', many=True)
+    hosted = GetEventSerializer(source='host', many=True)
+    participated = GetEventSerializer(source='event_set', many=True)
     
     class Meta:
         model = Player
@@ -67,3 +112,4 @@ class EventRequestSerializer(serializers.ModelSerializer):
         fields = ('player', 'event', 'playerType')
         # read_only_fields = ('created_at','updated_at')
 
+# Get

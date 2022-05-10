@@ -11,7 +11,7 @@ urlpatterns = [
 
     path('players/<user_id>/', GetPlayerView.as_view(), name='get_players'),
     path('players/<pk>/edit/', UpdatePlayerView.as_view(), name='players'),
-    path('players/<pk>/events/', PlayerEventsView.as_view(), name='aplayers'),
+    path('players/<user_id>/events/', PlayerEventsView.as_view(), name='aplayers'),
 
     path('events/', GetEventsView.as_view(), name='viewEvents'),
     path('events/create', CreateEventView.as_view(), name='createEvent'),
