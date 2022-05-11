@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import { getUserProfile } from "../actions/userActions";
 import Footer from "./Footer";
 import Header from "./Header";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 function Profile(props)  {
 
     const { uid } = useParams();
-    const {profile, getProfileInfo} = props
+    const {auth, profile, getProfileInfo} = props
     const history = useHistory()
     const displayFields = {
         'fname': "First Name",
@@ -69,11 +70,17 @@ function Profile(props)  {
                                         <div></div>
                                     )}
 
-                                    {profile ? (profile.user ? (
-                                    <div className="d-flex justify-content-center mb-2">
-                                        <button type="button" className="btn btn-primary">View Events</button>
-                                    </div>
-                                )
+                                    {profile ? (uid == jwtDecode(auth.user.access).user_id ? (
+                                    <>
+                                        <div className="d-flex justify-content-center mb-2">
+                                            <button type="button" className="btn btn-primary m-2">View Events</button>
+                                            
+                                            <Link to={`/profile/${uid}/edit`} >
+                                                <button className="btn btn-primary m-2">Edit Profile</button>
+                                            </Link>
+                                        </div>
+                                    </>
+                            )
                                      : (<div></div>)): (<div></div>)}                                  
                                 </div>
                             </div>
@@ -88,6 +95,7 @@ function Profile(props)  {
 
 const mapStateToProps = (state) => {
     return {
+        auth: state.authReducer,
         profile: state.userReducer.profileInfo
     }
 }

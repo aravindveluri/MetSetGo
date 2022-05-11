@@ -6,6 +6,7 @@ export const getUserProfile = (uid, history) => {
     return async (dispatch) => {
         try {
             const data = await userAPI.getProfile(uid)
+            console.log(data)
             dispatch({
                 type: UserActionType.GET_PROFILE,
                 payload: data.data
@@ -21,6 +22,22 @@ export const getUserProfile = (uid, history) => {
                 })
             }
 
+        }
+    }
+}
+export const editProfileAction = (uid, formState, history) => {
+    return async (dispatch) => {
+        try {
+            const data = await userAPI.editProfile(uid, formState)
+            dispatch({
+                type: UserActionType.EDIT_PROFILE,
+                payload: data.data
+            })
+
+            history.push(`/profile/${uid}`)
+            
+        } catch (error) {
+            console.log(error)
         }
     }
 }

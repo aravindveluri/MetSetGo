@@ -14,6 +14,7 @@ import CreateEvent from "./components/CreateEvent";
 import EventPage from "./components/EventPage";
 import EditEvent from "./components/EditEvent";
 import EventCatalog from "./components/EventCatalog";
+import EditProfile from "./components/EditProfile";
 
 function App() {
   return (
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route exact path="/profile/:uid">
             <Profile></Profile>
+          </Route>
+          <Route exact path="/profile/:uid/edit">
+            <EditProfile></EditProfile>
           </Route>
           <Route exact path="/events/create">
             <CreateEvent></CreateEvent>

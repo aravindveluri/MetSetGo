@@ -11,6 +11,7 @@ const userState = {
 const userReducer = (state = userState, action) => {
     switch (action.type) {
         case UserActionType.GET_PROFILE:
+        case UserActionType.EDIT_PROFILE:
             return {
                 ...state,
                 profileInfo: action.payload,

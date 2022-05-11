@@ -25,6 +25,8 @@ class GetPlayerView(generics.RetrieveAPIView):
 
 # Get the full information available to only current user
 class UpdatePlayerView(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = "user_id"
+    
     def get_queryset(self):
         return Player.objects.filter(user=self.request.user)
     
@@ -117,6 +119,7 @@ class UpdateEventView(generics.UpdateAPIView, generics.DestroyAPIView):
         permissions.IsAuthenticated
     ]
 
+    
 # Player event history
 class PlayerEventsView(generics.RetrieveAPIView):
     lookup_field = "user_id"

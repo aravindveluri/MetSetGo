@@ -4,6 +4,10 @@ class UserService {
         return api.get(`/players/${uid}/`)
     }
 
+    editProfile(uid, formData) {
+        return api.put(`/players/${uid}/edit/`, formData)
+    }
+
     getSports() {
         return api.get(`/sports/`)
     }

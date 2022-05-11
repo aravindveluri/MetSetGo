@@ -10,7 +10,7 @@ urlpatterns = [
     path('', include(router.urls)),
 
     path('players/<user_id>/', GetPlayerView.as_view(), name='get_players'),
-    path('players/<pk>/edit/', UpdatePlayerView.as_view(), name='players'),
+    path('players/<user_id>/edit/', UpdatePlayerView.as_view(), name='players'),
     path('players/<user_id>/events/', PlayerEventsView.as_view(), name='aplayers'),
 
     path('events/', GetEventsView.as_view(), name='viewEvents'),
