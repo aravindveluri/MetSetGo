@@ -7,5 +7,6 @@ const UserActionType = {
     EDIT_EVENT: "EDIT_EVENT",
     GET_EVENT: "GET_EVENT",
     JOIN_EVENT: "JOIN_EVENT",
+    GET_ALL_EVENTS: "GET_ALL_EVENTS",
 }
 export default UserActionType

@@ -25,7 +25,7 @@ function Home(props) {
                     <Link to={"/events/create"}>
                     <button className="btn btn-danger m-2">Create Event</button>
                     </Link>
-                    <Link to={"/"}>
+                    <Link to={"/events"}>
                     <button className="btn btn-danger m-2">View Events</button>
                     </Link>
                     <Link to={"/profile/" + TokenService.getUser().user_id}>

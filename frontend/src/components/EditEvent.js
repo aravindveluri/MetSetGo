@@ -250,6 +250,19 @@ function EditEvent(props) {
                     </div>
                     )
                   }) : (<></>)}
+
+                  <div className="form-group my-2">
+                    <div className="form-row">
+                      <div className="col my-2">
+                        {/* <label htmlFor="isfull">Full </label> */}
+                        <div className="form-check form-check-inline" onChange={e => {
+                          setFormState({...formState, isFull: e.target.checked})}}>
+                          <input className="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio3" value="full" defaultChecked={userData.eventPage.isFull}/>
+                          <label className="form-check-label" htmlFor="inlineRadio3"> Full </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   
                   <button type="submit" className="btn btn-danger btn-sm">
                     Submit

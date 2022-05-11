@@ -6,6 +6,7 @@ const userState = {
     venues: [],
     eventPage: null,
     joinEvent: false,
+    events: [],
 }
 const userReducer = (state = userState, action) => {
     switch (action.type) {
@@ -39,6 +40,13 @@ const userReducer = (state = userState, action) => {
                 joinEvent: true,
             }
         
+        case UserActionType.GET_ALL_EVENTS:
+            console.log(action.payload)
+            return {
+                ...state,
+                events: [...action.payload],
+            }
+
         default:
             return state
     }

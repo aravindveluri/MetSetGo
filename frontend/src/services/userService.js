@@ -28,5 +28,9 @@ class UserService {
         return api.post(`/events/join`, { event: eid })
     }
 
+    getEventCatalog() {
+        return api.get(`/events/`)
+    }
+
 }
 export default new UserService();

@@ -44,16 +44,14 @@ class GetEventsView(generics.RetrieveAPIView, generics.ListAPIView):
         now = timezone.now()
         return Event.objects.filter(
             (
-                (
-                    Q(isPrivate=True) |
-                    Q(players__id=self.request.user.player.id)
-                )
+                Q(isPrivate=False) |
+                Q(players__id=self.request.user.player.id)
             ) &
             (
                 Q(endDateTime__gt=now) &
                 ~Q(eventmapvenue__status='R')
             )
-        ) if 'pk' not in self.kwargs else Event.objects.filter(pk=self.kwargs["pk"])
+        ).distinct() if 'pk' not in self.kwargs else Event.objects.filter(pk=self.kwargs["pk"])
     
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs) if 'pk' in self.kwargs else super().list(request, *args, **kwargs)

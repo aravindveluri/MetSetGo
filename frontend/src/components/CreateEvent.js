@@ -44,7 +44,7 @@ function CreateEvent(props) {
       return
     }
     
-    // createEvent(formState, history)
+    createEvent(formState, history)
     
 
   }

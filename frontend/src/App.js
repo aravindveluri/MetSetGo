@@ -13,6 +13,7 @@ import Profile from "./components/Profile";
 import CreateEvent from "./components/CreateEvent";
 import EventPage from "./components/EventPage";
 import EditEvent from "./components/EditEvent";
+import EventCatalog from "./components/EventCatalog";
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
           <Route exact path="/events/:eid/edit">
             <EditEvent></EditEvent>
           </Route>
+          <Route exact path="/events">
+            <EventCatalog></EventCatalog>
+          </Route>
+
 
 
 

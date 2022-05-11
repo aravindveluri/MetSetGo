@@ -111,13 +111,28 @@ export const getEventAction = (eid) => {
 export const joinEventAction = (eid, history) => {
     return async (dispatch) => {
         try {
-            // const data = await userAPI.joinEvent(eid)
+            const data = await userAPI.joinEvent(eid)
             dispatch({
                 type: UserActionType.JOIN_EVENT,
-                payload: {"data":"data"}
+                payload: data.data
             })
 
             history.go(0)
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export const getEventsCatalogAction = () => {
+    return async (dispatch) => {
+        try {
+            const data = await userAPI.getEventCatalog();
+            dispatch({
+                type: UserActionType.GET_ALL_EVENTS,
+                payload: data.data
+            })
             
         } catch (error) {
             console.log(error)
