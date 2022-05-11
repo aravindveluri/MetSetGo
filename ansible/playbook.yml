@@ -40,6 +40,16 @@
         src: /github/workspace/docker-compose.prod.yml
         dest: ~/metsetgo/docker-compose.prod.yml
 
+    - name: Copy filebeat config file
+      copy:
+        src: /github/workspace/filebeat.yml
+        dest: ~/metsetgo/filebeat.yml
+
+    - name: Copy logstash.conf file
+      copy:
+        src: /github/workspace/logstash.conf
+        dest: ~/metsetgo/logstash.conf
+
     - name: Docker compose to spin up containers for metsetgo
       community.docker.docker_compose:
         project_src: ~/metsetgo

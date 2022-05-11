@@ -1,20 +1,5 @@
 version: "3.9"
 
-# secrets:
-#   db_host:
-#     file: ./secrets/db_host.txt
-#   db_port:
-#     file: ./secrets/db_port.txt
-#   db_database:
-#     file: ./secrets/db_database.txt
-#   db_user:
-#     file: ./secrets/db_user.txt
-#   db_password:
-#     file: ./secrets/db_password.txt
-#   db_rootpassword:
-#     file: ./secrets/db_rootpassword.txt
-
-
 services:
   db:
     restart: always
@@ -47,8 +32,14 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - filebeat
     networks:
       - db-net
+    volumes:
+      - type: volume
+        source: applogs
+        target: /app/backend/metsetgo_backend/logs
+
 
   frontend:
     # restart: always
@@ -83,6 +74,63 @@ services:
       - backend
       - frontend
 
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    container_name: elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      discovery.type: single-node
+    networks:
+      - db-net
+  
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.8.0
+    container_name: kibana
+    ports:
+      - 5601:5601
+    networks:
+      - db-net
+    depends_on:
+      - elasticsearch
+  
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.8.0
+    container_name: filebeat
+    volumes:
+      - type: volume
+        source: applogs
+        target: /app/backend/metsetgo_backend/logs
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
+    command: ["--strict.perms=false"]
+    networks:
+      - db-net
+    links:
+      - logstash:logstash
+    depends_on:
+      - logstash
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.8.0
+    container_name: logstash
+    ports:
+      - "5044:5044"
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    networks:
+      - db-net
+    ports:
+      - 5044:5044
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    stdin_open: true
+
+
+
 
 networks:
   # api:
@@ -96,3 +144,4 @@ networks:
 volumes:
   dbdata:
   buildfiles:
+  applogs:
