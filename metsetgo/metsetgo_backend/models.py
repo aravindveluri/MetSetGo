@@ -61,13 +61,19 @@ class Event(models.Model):
     hostSkill = models.IntegerField() #
 
 
-    sport = models.ForeignKey(Sport, on_delete=models.CASCADE, null=False)
+    sport = models.ForeignKey(Sport, on_delete=models.DO_NOTHING, null=False)
     players = models.ManyToManyField(Player, through='PlayerMapEvent')
-    host = models.ForeignKey(Player, related_name="host", on_delete=models.CASCADE)
-    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    host = models.ForeignKey(Player, related_name="host", on_delete=models.DO_NOTHING)
+    venue = models.ForeignKey(Venue, on_delete=models.DO_NOTHING)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def delete(self, *args, **kwargs):
+        PlayerMapEvent.objects.filter(event=self.pk).delete()
+        EventMapVenue.objects.filter(event=self.pk).delete()
+        return super(self.__class__, self).delete(*args, **kwargs)
+
 
 
     def save(self, *args, **kwargs):
@@ -90,8 +96,8 @@ class PlayerMapEvent(models.Model):
         ('R', 'Requested'),
     )
 
-    player= models.ForeignKey(Player,on_delete=models.CASCADE)
-    event= models.ForeignKey(Event,on_delete=models.CASCADE)
+    player= models.ForeignKey(Player,on_delete=models.DO_NOTHING)
+    event= models.ForeignKey(Event,on_delete=models.DO_NOTHING)
     playerType= models.CharField(max_length=100, choices=PLAYER_TYPE_CHOICES, default="R")
     
     created_at = models.DateTimeField(auto_now_add=True)
@@ -106,8 +112,8 @@ class EventMapVenue(models.Model):
         ('A', 'Approved')
     )
 
-    event = models.OneToOneField(Event,on_delete=models.CASCADE, unique=True, null=False)
-    venue = models.ForeignKey(Venue,on_delete=models.CASCADE)
+    event = models.OneToOneField(Event,on_delete=models.DO_NOTHING, unique=True, null=False)
+    venue = models.ForeignKey(Venue,on_delete=models.DO_NOTHING)
     status = models.CharField(max_length=1, choices=STATUS, default='P')
 
     created_at = models.DateTimeField(auto_now_add=True)

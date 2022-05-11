@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom'
-import { createEventAction, getEventAction, getSports, getVenues, joinEventAction } from "../actions/userActions";
+import { createEventAction, deleteEventAction, getEventAction, getSports, getVenues, joinEventAction } from "../actions/userActions";
 import Footer from "./Footer";
 import Header from "./Header";
 import DateTimePicker from 'react-datetime-picker';
@@ -10,7 +10,7 @@ import jwtDecode from "jwt-decode";
 import { SKILL_TEXT } from "../constants/skillMapping";
 
 function EventPage(props) {
-	const { auth, eventData, getEventData, joinEvent } = props
+	const { auth, eventData, getEventData, joinEvent, deleteEvent } = props
 	const { eid } = useParams()
 	const history = useHistory()
 
@@ -53,11 +53,11 @@ function EventPage(props) {
 
 	}
 	const handleDelete = (e) => {
-
+		deleteEvent(eid, history)
 	}
 
 	const handleJoinEvent = (e) => {
-		joinEvent(eid)
+		joinEvent(eid, history)
 	}
 
 
@@ -158,7 +158,7 @@ function EventPage(props) {
 																<Link to={`/events/${eid}/edit`}>
 																	<button className="btn btn-danger m-2">Edit</button>
 																</Link>
-																<button className="btn btn-danger m-2" onClick={handleDelete}>Delete Event</button>
+																<button className="btn btn-danger m-2" onClick={e => handleDelete()}>Delete Event</button>
 
 															</>
 														) : ( (function (){
@@ -167,6 +167,8 @@ function EventPage(props) {
 																return (
 																	<button className="btn btn-outline-danger m-2" disabled>{playerEvent.playerType === 'R' ? "Requested" : "Joined"}</button>
 																)
+	
+																	else if (eventData["isFull"]) return (<button className="btn btn-outline-danger m-2" disabled>Event is full</button> )
 															return (
 																<button className="btn btn-danger m-2" onClick={handleJoinEvent}>Join</button>
 															)
@@ -207,6 +209,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		joinEvent: (eid, history) => {
 			dispatch(joinEventAction(eid, history))
+		},
+		deleteEvent: (eid, history) => {
+			dispatch(deleteEventAction(eid, history))
 		}
 	}
 }

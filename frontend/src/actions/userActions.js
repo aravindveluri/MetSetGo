@@ -125,6 +125,23 @@ export const joinEventAction = (eid, history) => {
     }
 }
 
+export const deleteEventAction = (eid, history) => {
+    return async (dispatch) => {
+        try {
+            const data = await userAPI.deleteEvent(eid)
+            dispatch({
+                type: UserActionType.DELETE_EVENT,
+                payload: data.data
+            })
+
+            history.push(`/events`)
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 export const getEventsCatalogAction = () => {
     return async (dispatch) => {
         try {

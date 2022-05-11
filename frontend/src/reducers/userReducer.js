@@ -41,10 +41,15 @@ const userReducer = (state = userState, action) => {
             }
         
         case UserActionType.GET_ALL_EVENTS:
-            console.log(action.payload)
             return {
                 ...state,
                 events: [...action.payload],
+            }
+
+        case UserActionType.DELETE_EVENT:
+            return {
+                ...state,
+                eventPage: null,
             }
 
         default:

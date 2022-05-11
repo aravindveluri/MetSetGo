@@ -32,5 +32,8 @@ class UserService {
         return api.get(`/events/`)
     }
 
+    deleteEvent(eid) {
+        return api.delete(`/events/${eid}/edit`)
+    }
 }
 export default new UserService();
