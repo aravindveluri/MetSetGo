@@ -2,10 +2,6 @@ name: Build Test Deploy
 
 # triggers
 on:
-  # opening a pr to master or develop branches
-  pull_request:
-    branches:
-      - master
   # code pushed to master or develop branch
   push:
     branches:
