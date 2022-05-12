@@ -1,0 +1,58 @@
+---
+- name: Deploy the application
+  hosts: all
+  become: true
+  become_user: aravindv
+  tasks:
+    - name: Pull database image
+      docker_image:
+        name: aravindv178/metsetgo:db
+        source: pull
+        force_source: yes
+    - name: Pull backend image
+      docker_image:
+        name: aravindv178/metsetgo:backend
+        source: pull
+        force_source: yes
+    - name: Pull frontend image
+      docker_image:
+        name: aravindv178/metsetgo:frontend
+        source: pull
+        force_source: yes
+    - name: Pull nginx image
+      docker_image:
+        name: aravindv178/metsetgo:nginx
+        source: pull
+        force_source: yes
+        
+    - name: Install pre-requisites and plugins
+      ansible.builtin.shell:
+        cmd: pip install docker-compose && ansible-galaxy collection install community.docker && ansible-galaxy collection install ansible.posix
+
+    - name: Create directory if not exists
+      file:
+        path: ~/metsetgo
+        state: directory
+        mode: 0755
+
+    - name: Copy docker compose file
+      copy:
+        src: /github/workspace/docker-compose.prod.yml
+        dest: ~/metsetgo/docker-compose.prod.yml
+
+    - name: Copy filebeat config file
+      copy:
+        src: /github/workspace/filebeat.yml
+        dest: ~/metsetgo/filebeat.yml
+
+    - name: Copy logstash.conf file
+      copy:
+        src: /github/workspace/logstash.conf
+        dest: ~/metsetgo/logstash.conf
+
+    - name: Docker compose to spin up containers for metsetgo
+      community.docker.docker_compose:
+        project_src: ~/metsetgo
+        files:
+        - docker-compose.prod.yml
+        

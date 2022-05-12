@@ -1,0 +1,145 @@
+version: "3.9"
+
+services:
+  db:
+    restart: always
+    image: aravindv178/metsetgo:db
+    container_name: metsetgo_database
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=MetSetGoDB
+    ports:
+      - "5432:5432"
+    networks:
+      - db-net
+    volumes:
+      - type: volume
+        source: dbdata
+        target: /var/lib/postgresql/data
+
+
+  backend:
+    restart: always
+    container_name: metsetgo_backend
+    command: bash -c "python manage.py makemigrations && 
+                      python manage.py migrate && 
+                      gunicorn metsetgo.wsgi --bind 0.0.0.0:8000"
+    env_file:
+      - ./.env.backend
+    image: aravindv178/metsetgo:backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - filebeat
+    networks:
+      - db-net
+    volumes:
+      - type: volume
+        source: applogs
+        target: /app/backend/metsetgo_backend/logs
+
+
+  frontend:
+    # restart: always
+    command: npm run build
+    env_file:
+      - ./.env.local
+    container_name: metsetgo_frontend
+    volumes:
+      - type: volume
+        source: buildfiles
+        target: /app/frontend/build
+    image: aravindv178/metsetgo:frontend
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    depends_on:
+      - backend
+    networks:
+      - db-net
+
+  nginx:
+    container_name: metsetgo_nginx
+    image: aravindv178/metsetgo:nginx
+    ports:
+      - "80:8080"
+    volumes:
+      - type: volume
+        source: buildfiles
+        target: /app/frontend/build
+
+    depends_on:
+      - backend
+      - frontend
+
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    container_name: elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      discovery.type: single-node
+    networks:
+      - db-net
+  
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.8.0
+    container_name: kibana
+    ports:
+      - 5601:5601
+    networks:
+      - db-net
+    depends_on:
+      - elasticsearch
+  
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.8.0
+    container_name: filebeat
+    volumes:
+      - type: volume
+        source: applogs
+        target: /app/backend/metsetgo_backend/logs
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
+    command: ["--strict.perms=false"]
+    networks:
+      - db-net
+    links:
+      - logstash:logstash
+    depends_on:
+      - logstash
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.8.0
+    container_name: logstash
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    networks:
+      - db-net
+    ports:
+      - 5044:5044
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    stdin_open: true
+
+
+
+
+networks:
+  # api:
+  #   driver: bridge
+  # db-network:
+  #   driver: bridge
+  db-net:
+    driver: bridge
+
+      
+volumes:
+  dbdata:
+  buildfiles:
+  applogs:

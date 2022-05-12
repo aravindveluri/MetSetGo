@@ -1,0 +1,105 @@
+version: "3.9"
+
+# secrets:
+#   db_host:
+#     file: ./secrets/db_host.txt
+#   db_port:
+#     file: ./secrets/db_port.txt
+#   db_database:
+#     file: ./secrets/db_database.txt
+#   db_user:
+#     file: ./secrets/db_user.txt
+#   db_password:
+#     file: ./secrets/db_password.txt
+#   db_rootpassword:
+#     file: ./secrets/db_rootpassword.txt
+
+
+services:
+  db:
+    restart: always
+    image: postgres:12.9
+    container_name: metsetgo_database
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=MetSetGoDB
+    ports:
+      - "5438:5432"
+    networks:
+      - db-net
+    volumes:
+      - type: volume
+        source: dbdata
+        target: /var/lib/postgresql/data
+
+
+  backend:
+    restart: always
+    container_name: metsetgo_backend
+    command: bash -c "python manage.py makemigrations && 
+                      python manage.py migrate && 
+                      gunicorn metsetgo.wsgi --bind 0.0.0.0:8000"
+#     env_file:
+#       - ./metsetgo/.env
+    build: 
+      context: ./metsetgo
+      dockerfile: Dockerfile
+    image: metsetgo_backend:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - db-net
+
+  frontend:
+    # restart: always
+    command: npm run build
+    container_name: metsetgo_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - type: volume
+        source: buildfiles
+        target: /app/frontend/build
+    image: metsetgo_frontend:latest
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    depends_on:
+      - backend
+    networks:
+      - db-net
+
+  nginx:
+    container_name: metsetgo_nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: metsetgo_nginx:latest
+    ports:
+      - 85:8080
+    volumes:
+      - type: volume
+        source: buildfiles
+        target: /app/frontend/build
+
+    depends_on:
+      - backend
+      - frontend
+
+
+networks:
+  # api:
+  #   driver: bridge
+  # db-network:
+  #   driver: bridge
+  db-net:
+    driver: bridge
+
+      
+volumes:
+  dbdata:
+  buildfiles:

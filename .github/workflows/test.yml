@@ -1,4 +1,4 @@
-name: Django CI testing
+name: Test
 
 # triggers
 on:
@@ -6,13 +6,10 @@ on:
   pull_request:
     branches:
       - develop
-      - master
   # code pushed to master or develop branch
   push:
     branches:
-      - master
       - develop
-
 
 jobs:
   app-health-job: # health check for testing
@@ -30,6 +27,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        
       - name: Cache dependency # for faster builds
         uses: actions/cache@v2
         with:
@@ -37,17 +35,21 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
+            
       - name: Setup python environment # setting python environment to 3.x
         uses: actions/setup-python@v2
         with:
           python-version: '3.8.3'
+          
       - name: Check Python version # Check if python version is installed
         run: python --version
+        
       - name: Install requirements # install requirements
-        run: pip install -r requirements.txt
+        run: pip install -r metsetgo/requirements.txt
+        
       - name: Run Migrations # run migrations to populate db tables
         run: python metsetgo/manage.py migrate
-      - name: Run Tests # running tests
-        working-directory: ./metsetgo
-        run: python manage.py test
-
+        
+#       - name: Run Tests # running tests
+#         working-directory: ./metsetgo
+#         run: python manage.py test
