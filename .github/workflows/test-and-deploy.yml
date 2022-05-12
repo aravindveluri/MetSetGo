@@ -58,7 +58,7 @@ jobs:
 #         run: python manage.py test
 
   push-dockerhub:
-#     needs: app-health-job
+    needs: app-health-job
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
