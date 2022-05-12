@@ -15,43 +15,43 @@ on:
       - deploy
 
 jobs:
-#   app-health-job: # health check for testing
-#     runs-on: ubuntu-latest
-#     services:
-#       postgres:
-#         image: postgres
-#         env:
-#           POSTGRES_USER: postgres
-#           POSTGRES_PASSWORD: postgres
-#           POSTGRES_DB: github-actions
-#         ports:
-#           - 5432:5432
-#         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
+  app-health-job: # health check for testing
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: github-actions
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
         
-#       - name: Cache dependency # for faster builds
-#         uses: actions/cache@v2
-#         with:
-#           path: ~/.cache/pip
-#           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-#           restore-keys: |
-#             ${{ runner.os }}-pip-
+      - name: Cache dependency # for faster builds
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
             
-#       - name: Setup python environment # setting python environment to 3.x
-#         uses: actions/setup-python@v2
-#         with:
-#           python-version: '3.8.3'
+      - name: Setup python environment # setting python environment to 3.x
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8.3'
           
-#       - name: Check Python version # Check if python version is installed
-#         run: python --version
+      - name: Check Python version # Check if python version is installed
+        run: python --version
         
-#       - name: Install requirements # install requirements
-#         run: pip install -r metsetgo/requirements.txt
+      - name: Install requirements # install requirements
+        run: pip install -r metsetgo/requirements.txt
         
-#       - name: Run Migrations # run migrations to populate db tables
-#         run: python metsetgo/manage.py migrate
+      - name: Run Migrations # run migrations to populate db tables
+        run: python metsetgo/manage.py migrate
         
 #       - name: Run Tests # running tests
 #         working-directory: ./metsetgo
