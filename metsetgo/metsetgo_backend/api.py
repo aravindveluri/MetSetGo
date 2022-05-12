@@ -9,16 +9,21 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 
+import logging
+logger = logging.getLogger(__name__)
+
 # Player ViewSet
 # Get the public information available to all the users
 class GetPlayerView(generics.RetrieveAPIView):
     lookup_field = "user_id"
     
     def get_queryset(self):
+        logger.debug("GetPlayerView accessed")
         return Player.objects.all()
     
     def get_serializer_class(self):
         if not self.request.user.is_anonymous and str(self.request.user.id) == self.kwargs['user_id']:
+            logger.info("Fetching player " + str(self.request.user.id))
             return OwnerPlayerSerializer
         return BasicPlayerSerializer
 
@@ -28,6 +33,8 @@ class UpdatePlayerView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "user_id"
     
     def get_queryset(self):
+        logger.debug("UpdatePlayerView accessed")
+        logger.info("Updating player" + str(self.request.user.id))
         return Player.objects.filter(user=self.request.user)
     
     def get_serializer_class(self):
@@ -56,6 +63,8 @@ class GetEventsView(generics.RetrieveAPIView, generics.ListAPIView):
         ).distinct() if 'pk' not in self.kwargs else Event.objects.filter(pk=self.kwargs["pk"])
     
     def get(self, request, *args, **kwargs):
+        logger.debug("GetEventsView accessed")
+        logger.info("Listing events")
         return super().get(request, *args, **kwargs) if 'pk' in self.kwargs else super().list(request, *args, **kwargs)
 
     def get_serializer_class(self):
@@ -74,6 +83,8 @@ class CreateEventView(generics.CreateAPIView):
         return EventSerializer
 
     def create(self, request, *args, **kwargs):
+        logger.debug("CreateEventView accessed")
+        logger.info("Creating event for player" + str(request.user.player.id))
         request.data.update({'host': request.user.player.id})
         return super().create(request, *args, **kwargs)
 
@@ -90,6 +101,8 @@ class UpdateEventView(generics.UpdateAPIView, generics.DestroyAPIView):
         return EventSerializer
 
     def update(self, request, *args, **kwargs):
+        logger.debug("UpdateEventView accessed")
+        logger.info("Updating event for player")
         request.data.update({'host': request.user.player.id})
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
@@ -113,6 +126,8 @@ class UpdateEventView(generics.UpdateAPIView, generics.DestroyAPIView):
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
+        logger.debug("UpdateEventView accessed")
+        logger.info("Destroying event" + str(self.pk))
         return super().destroy(request, *args, **kwargs)
 
     permission_classes = [
@@ -123,9 +138,9 @@ class UpdateEventView(generics.UpdateAPIView, generics.DestroyAPIView):
 # Player event history
 class PlayerEventsView(generics.RetrieveAPIView):
     lookup_field = "user_id"
-    
     def get_queryset(self):
-        return PlayerMapEvent.objects.filter(user=self.request.user)
+    # print(self.kwargs['player_id'])
+        return Player.objects.filter(user=self.request.user.id)
     
     def get_serializer_class(self):
         return PlayerEventsSerializer
@@ -137,6 +152,7 @@ class PlayerEventsView(generics.RetrieveAPIView):
 
 class JoinEventView(generics.CreateAPIView):
     def get_queryset(self):
+        logger.debug("JoinEventView accessed")
         return PlayerMapEvent.objects.all()
     def get_serializer_class(self):
         return EventRequestSerializer
@@ -153,9 +169,10 @@ class JoinEventView(generics.CreateAPIView):
 class EventPlayerView(generics.ListAPIView):
 
     def get_queryset(self):
-         eventId=self.kwargs['pk']
-         print(PlayerMapEvent.objects.filter(event_id=eventId))
-         return PlayerMapEvent.objects.filter(event_id=eventId)
+        logger.debug("EventPlayerView accessed")
+        eventId=self.kwargs['pk']
+        print(PlayerMapEvent.objects.filter(event_id=eventId))
+        return PlayerMapEvent.objects.filter(event_id=eventId)
 
     def get_serializer_class(self):
         return GetEventRequestSerializer
@@ -167,6 +184,7 @@ class EventPlayerView(generics.ListAPIView):
 
 class GetSportsView(generics.ListAPIView):
     def get_queryset(self):
+        logger.debug("GetSportsView accessed")
         return Sport.objects.all()
     
     def get_serializer_class(self):
@@ -174,6 +192,7 @@ class GetSportsView(generics.ListAPIView):
 
 class GetVenuesView(generics.ListAPIView):
     def get_queryset(self):
+        logger.debug("GetVenuesView accessed")
         return Venue.objects.all()
     
     def get_serializer_class(self):
