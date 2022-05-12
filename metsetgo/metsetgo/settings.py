@@ -219,5 +219,9 @@ LOGGING = {
             'handlers': ['djangologfile'],
             'level': 'DEBUG',
         }
-    }
+    },
+    'root': {
+        'handlers': ['djangologfile'],
+        'level': 'DEBUG',
+    },
 }
