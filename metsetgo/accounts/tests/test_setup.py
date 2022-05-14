@@ -6,21 +6,23 @@ from django.urls import reverse
 class TestSetUp(APITestCase):
 
     def setUp(self):
-        self.register_url = reverse('register')
-        self.login_url = reverse('login')
-        self.user_url = reverse('user')
+        self.register_url = reverse('auth_register')
+        self.login_url = reverse('token_obtain_pair')
+        # self.user_url = reverse('user')
 
         self.user_data = {
             'fname':'a',
             'email': 'ab@ab.com',
             'username': "ab",
-            'password': "ab",
+            'password': "ithas8chars",
+            'password2': "ithas8chars"
         }
         self.user_data_wrong = {
             'fname':'a',
             'email': 'ab@ab.com',
             'username': "ab",
-            'password': "abc",
+            'password': "ithas9chars",
+            'password2': "ithas9chars"
         }
 
         return super().setUp()
