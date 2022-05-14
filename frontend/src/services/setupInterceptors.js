@@ -44,7 +44,6 @@
 
 import axiosInstance from "./api";
 import TokenService from "./TokenService";
-// import { RefreshTokenAction } from "../actions/authActions";
 const setup = (store) => {
 	axiosInstance.interceptors.request.use(
 		(config) => {
@@ -75,7 +74,6 @@ const setup = (store) => {
 							refresh: TokenService.getLocalRefreshToken(),
 						});
 						const authTokens = rs.data;
-						// dispatch(RefreshTokenAction(authTokens));
 						TokenService.setAuthTokens(authTokens);
 						return axiosInstance(originalConfig);
 					} catch (_error) {

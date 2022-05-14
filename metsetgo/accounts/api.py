@@ -3,15 +3,19 @@ from rest_framework import generics, permissions, serializers
 from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
+import logging
+logger = logging.getLogger(__name__)
 
 class SignUpAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
+        logger.debug("SignUPAPI accessed")
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         token = AuthToken.objects.create(user)
+        logger.debug("SignUPAPI returned")
         return Response({
             "users": UserSerializer(user, context=self.get_serializer_context()).data,
             "token": token[1]
@@ -22,9 +26,11 @@ class SignInAPI(generics.GenericAPIView):
     serializer_class = LoginSerializer
 
     def post(self, request):
+        logger.debug("SignInAPI accessed")
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
+        logger.debug("SignInAPI returned")
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "token": AuthToken.objects.create(user)[1]
