@@ -10,5 +10,6 @@ const UserActionType = {
     GET_ALL_EVENTS: "GET_ALL_EVENTS",
     DELETE_EVENT: "DELETE_EVENT",
     EDIT_PROFILE: "EDIT_PROFILE",
+    PLAYER_EVENTS: "PLAYER_EVENTS",
 }
 export default UserActionType

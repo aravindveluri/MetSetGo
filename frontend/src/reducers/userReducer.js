@@ -1,3 +1,4 @@
+import { bindActionCreators } from "redux"
 import UserActionType from "../types/userActionType"
 
 const userState = {
@@ -7,6 +8,7 @@ const userState = {
     eventPage: null,
     joinEvent: false,
     events: [],
+    playerEvents: {},
 }
 const userReducer = (state = userState, action) => {
     switch (action.type) {
@@ -51,6 +53,12 @@ const userReducer = (state = userState, action) => {
             return {
                 ...state,
                 eventPage: null,
+            }
+
+        case UserActionType.PLAYER_EVENTS:
+            return {
+                ...state,
+                playerEvents: action.payload,
             }
 
         default:

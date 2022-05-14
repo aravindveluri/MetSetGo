@@ -154,12 +154,15 @@ function EventPage(props) {
 												<>
 													{eventData ? (
 														(jwtDecode(auth.user.access)["user_id"] === eventData["host"]["user"]["id"]) ? (
+															new Date(eventData["endDateTime"]) > new Date() ? 
 															<>
 																<Link to={`/events/${eid}/edit`}>
 																	<button className="btn btn-danger m-2">Edit</button>
 																</Link>
 																<button className="btn btn-danger m-2" onClick={e => handleDelete()}>Delete Event</button>
 
+															</> : <>
+															<button className="btn btn-outline-danger m-2" disabled>Event finished</button>															
 															</>
 														) : ( (function (){
 															let playerEvent = eventData["playerMapEvents"].find(playerEvent => playerEvent["player"]["user"]["id"] === jwtDecode(auth.user.access)["user_id"])

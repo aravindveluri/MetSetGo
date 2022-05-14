@@ -125,7 +125,7 @@ class PlayerEventsView(generics.RetrieveAPIView):
     lookup_field = "user_id"
     
     def get_queryset(self):
-        return PlayerMapEvent.objects.filter(user=self.request.user)
+        return Player.objects.filter(user=self.request.user)
     
     def get_serializer_class(self):
         return PlayerEventsSerializer
