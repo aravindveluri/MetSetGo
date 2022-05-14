@@ -50,6 +50,6 @@ jobs:
       - name: Run Migrations # run migrations to populate db tables
         run: python metsetgo/manage.py migrate
         
-#       - name: Run Tests # running tests
-#         working-directory: ./metsetgo
-#         run: python manage.py test
+      - name: Run Tests # running tests
+        working-directory: ./metsetgo
+        run: python manage.py test
