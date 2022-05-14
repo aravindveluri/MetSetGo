@@ -73,7 +73,9 @@ function Profile(props)  {
                                     {profile ? (uid == jwtDecode(auth.user.access).user_id ? (
                                     <>
                                         <div className="d-flex justify-content-center mb-2">
-                                            <button type="button" className="btn btn-primary m-2">View Events</button>
+                                            <Link to={`/profile/${uid}/events`}>
+                                                <button className="btn btn-primary m-2">View Events</button>
+                                            </Link>
                                             
                                             <Link to={`/profile/${uid}/edit`} >
                                                 <button className="btn btn-primary m-2">Edit Profile</button>

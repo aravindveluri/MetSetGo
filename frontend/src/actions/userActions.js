@@ -174,4 +174,18 @@ export const getEventsCatalogAction = () => {
     }
 }
 
+export const getPlayerEventsAction = (uid) => {
+    return async (dispatch) => {
+        try {
+            const data = await userAPI.playerEvents(uid);
+            dispatch({
+                type: UserActionType.PLAYER_EVENTS,
+                payload: data.data
+            })
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
 

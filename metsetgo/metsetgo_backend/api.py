@@ -139,8 +139,7 @@ class UpdateEventView(generics.UpdateAPIView, generics.DestroyAPIView):
 class PlayerEventsView(generics.RetrieveAPIView):
     lookup_field = "user_id"
     def get_queryset(self):
-    # print(self.kwargs['player_id'])
-        return Player.objects.filter(user=self.request.user.id)
+        return Player.objects.filter(user=self.request.user)
     
     def get_serializer_class(self):
         return PlayerEventsSerializer
