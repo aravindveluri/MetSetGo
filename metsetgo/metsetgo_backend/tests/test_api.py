@@ -1,12 +1,9 @@
-import json
 
 from django.contrib.auth.models import User
 from django.urls import reverse
-from rest_framework import status
-from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 from accounts.serializers import MyTokenObtainPairSerializer
-from metsetgo_backend.models import Event, Player, Sport, Venue
+from metsetgo_backend.models import Player
 
 #from profiles.api.serializers import ProfileSerializer, ProfileStatusSerializer
 #from profiles.models import Profile, ProfileStatus

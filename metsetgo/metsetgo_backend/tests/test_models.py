@@ -1,6 +1,3 @@
-import datetime
-from turtle import title
-from unicodedata import name
 
 from django.contrib.auth.models import User
 from django.test import TestCase
