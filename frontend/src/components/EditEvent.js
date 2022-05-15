@@ -33,7 +33,7 @@ function EditEvent(props) {
     e.preventDefault()
     
     if(formState.sport === "0" || formState.venue === "0") {
-      console.log("Please select a sport or venue")
+      
       return
     }
 
@@ -64,7 +64,7 @@ function EditEvent(props) {
         }
       }
     })
-    console.log(formState)
+    
     editEvent(eid, formState, history)
   }
 
@@ -238,7 +238,7 @@ function EditEvent(props) {
                             
                             {(
                             Object.keys(PLAYER_STATUS).map((status, j) => {
-                              console.log(formState)
+                              
                                 return (
                                   <option value={status} key={j}>{PLAYER_STATUS[status]}</option>
                                 )

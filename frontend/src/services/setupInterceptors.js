@@ -63,7 +63,7 @@ const setup = (store) => {
 			return res;
 		},
 		async (err) => {
-			console.log(err, err.config)
+			
 			const originalConfig = err.config;
 			if (originalConfig.url !== "/auth/token/refresh/" && err.response) {
 				// Access Token expired

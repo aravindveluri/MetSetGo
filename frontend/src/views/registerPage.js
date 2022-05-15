@@ -7,7 +7,7 @@ import Header from "../components/Header";
 import AuthContext from "../context/AuthContext";
 
 function Register(props) {
-  console.log(props)
+  
   const { isRegistered, register } = props;
   const [userState, setUserState] = useState({}); 
   
