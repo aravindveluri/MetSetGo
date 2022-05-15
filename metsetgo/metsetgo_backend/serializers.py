@@ -42,7 +42,6 @@ class GetEventSerializer(serializers.ModelSerializer):
     sport = SportSerializer()
     venue = VenueSerializer()
     host = BasicPlayerSerializer()
-    # players = BasicPlayerSerializer(many=True)
     playerMapEvents = GetEventRequestSerializer(source='playermapevent_set', many=True)
     venueStatus = EventMapVenueSerializer(source='eventmapvenue')
     class Meta:
@@ -69,9 +68,6 @@ class GetEventSerializer(serializers.ModelSerializer):
             'venueStatus'
         )
 class EventSerializer(serializers.ModelSerializer):
-    # sport = SportSerializer()
-    # venue = VenueSerializer()
-    # host = BasicPlayerSerializer()
     class Meta:
         model = Event
         fields = (
@@ -94,10 +90,6 @@ class EventSerializer(serializers.ModelSerializer):
         )
 
 class PlayerEventsSerializer(serializers.ModelSerializer):
-    # something = Player.objects.get(id=6)
-    # print(something.playermapevent_set.all())
-    # print(something.event_set.all())
-    # print(something.host.all())
 
     hosted = GetEventSerializer(source='host', many=True)
     participated = GetEventSerializer(source='event_set', many=True)
@@ -110,6 +102,5 @@ class EventRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayerMapEvent
         fields = ('player', 'event', 'playerType')
-        # read_only_fields = ('created_at','updated_at')
 
 # Get
