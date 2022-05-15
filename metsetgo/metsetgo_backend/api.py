@@ -1,13 +1,9 @@
-from cgitb import lookup
 from metsetgo_backend.models import *
-from rest_framework import viewsets, permissions, generics, mixins
+from rest_framework import permissions, generics
 from .serializers import BasicPlayerSerializer, OwnerPlayerSerializer, EventSerializer, PlayerEventsSerializer, EventRequestSerializer, SportSerializer, VenueSerializer, GetEventSerializer
 from django.db.models import Q
 from django.utils import timezone
-
-from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.settings import api_settings
 
 import logging
 logger = logging.getLogger(__name__)

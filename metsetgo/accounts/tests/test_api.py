@@ -1,5 +1,4 @@
 from .test_setup import TestSetUp
-from django.contrib.auth.models import User
 
 
 class TestViews(TestSetUp):
