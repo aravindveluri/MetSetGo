@@ -6,7 +6,7 @@ export const getUserProfile = (uid, history) => {
     return async (dispatch) => {
         try {
             const data = await userAPI.getProfile(uid)
-            console.log(data)
+            
             dispatch({
                 type: UserActionType.GET_PROFILE,
                 payload: data.data
@@ -79,7 +79,7 @@ export const createEventAction = (formState, history) => {
     return async (dispatch) => {
         try {
             const data = await userAPI.createEvent(formState)
-            console.log("Post data", data)
+            
             dispatch({
                 type: UserActionType.CREATE_EVENT,
                 payload: data.data
@@ -96,7 +96,7 @@ export const editEventAction = (eid, formState, history) => {
     return async (dispatch) => {
         try {
             const data = await userAPI.editEvent(eid, formState)
-            console.log("Put data", data)
+            
             dispatch({
                 type: UserActionType.EDIT_EVENT,
                 payload: data.data

@@ -10,7 +10,7 @@ import setupInterceptors from "./services/setupInterceptors";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // axios.defaults.baseURL="http://localhost:8000/api"
-console.log("Setup interceptors")
+
 setupInterceptors(store)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

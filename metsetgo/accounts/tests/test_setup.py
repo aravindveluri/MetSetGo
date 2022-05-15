@@ -1,6 +1,5 @@
 from rest_framework.test import APITestCase
 from django.urls import reverse
-# from authentication.models import User
 
 
 class TestSetUp(APITestCase):
@@ -8,7 +7,6 @@ class TestSetUp(APITestCase):
     def setUp(self):
         self.register_url = reverse('auth_register')
         self.login_url = reverse('token_obtain_pair')
-        # self.user_url = reverse('user')
 
         self.user_data = {
             'fname':'a',
@@ -26,6 +24,3 @@ class TestSetUp(APITestCase):
         }
 
         return super().setUp()
-
-    def tearDown(self):
-        return super().tearDown()

@@ -40,7 +40,7 @@ function CreateEvent(props) {
     e.preventDefault()
     
     if(formState.sport === "0" || formState.venue === "0") {
-      console.log("Please select a sport or venue")
+      
       return
     }
     
