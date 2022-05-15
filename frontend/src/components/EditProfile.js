@@ -22,13 +22,13 @@ function EditProfile(props) {
   }, [])
 
   const handleSubmit = (e) => {
-    console.log("submitting")
+    
 
     e.preventDefault()
 
     if (!formState["phone"]) formState["phone"] = userData.profileInfo.phone
     if (!formState["fname"]) formState["fname"] = userData.profileInfo.fname
-    console.log(formState)
+    
     editProfile(uid, formState, history)
 
 
